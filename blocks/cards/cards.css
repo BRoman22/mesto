@@ -1,3 +1,10 @@
 .cards {
   margin: 46px 200px 0;
 }
+
+
+@media (max-width: 1279px) {
+  .cards {
+    margin: 36px 19px 0;
+  }
+}

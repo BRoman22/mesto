@@ -3,3 +3,11 @@
   align-items: baseline;
   gap: 18px;
 }
+
+
+@media (max-width: 1279px) {
+  .profile__wrapper {
+    gap: 10px;
+    margin-left: 26px;
+  }
+}

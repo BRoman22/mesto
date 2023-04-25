@@ -1,0 +1,12 @@
+.popup__overlay::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+  opacity: .5;
+  z-index: -1;
+  text-decoration: none;
+}

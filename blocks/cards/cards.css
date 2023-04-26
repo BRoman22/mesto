@@ -1,9 +1,9 @@
 .cards {
-  margin: 46px 200px 0;
+  margin: 46px 0 0;
 }
 
 
-@media (max-width: 1279px) {
+@media (max-width: 879px) {
   .cards {
     margin: 36px 19px 0;
     display: flex;

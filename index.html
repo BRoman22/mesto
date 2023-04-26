@@ -12,11 +12,10 @@
 <body class="page">
   <header class="header">
     <div class="header__logo"></div>
-    <hr class="header__line">
   </header>
   <main>
     <section class="profile">
-      <img src="./images/avatar.jpg" alt="Жак-Ив Кусто" class="profile__avatar">
+      <img src="./images/avatar.jpg" alt="" class="profile__avatar">
       <div class="profile__info">
         <div class="profile__wrapper">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
@@ -66,7 +65,7 @@
         <li class="card">
           <img src="./images/card1.jpg" alt="старая поросшая травой церковь" class="card__image">
           <div class="card__wrapper">
-            <h2 class="card__title">Карачаево-Черкесия</h2>
+            <h2 class="card__title">Карачаево-Черкессия</h2>
             <a class="card__like"></a>
           </div>
         </li>
@@ -78,22 +77,16 @@
   </footer>
 
   <div class="popup">
-    <form action="" class="popup__body">
-      <a href="" class="popup__overlay"></a>
+    <form class="popup__body">
       <h2 class="popup__title">Редактировать профиль</h2>
-      <div class="popup__wrapper popup__wrapper_name">
-        <input type="text" value="Жак-Ив Кусто" class="popup__input">
-        <hr class="popup__line">
-      </div>
-      <div class="popup__wrapper popup__wrapper_bio">
-        <input type="text" value="Исследователь океана" class="popup__input">
-        <hr class="popup__line">
-      </div>
+      <input type="text" class="popup__input">
+      <input type="text" class="popup__input">
       <button class="popup__button">Сохранить</button>
       <a class="popup__close"></a>
     </form>
   </div>
 
+  <script src="index.js"></script>
 </body>
 
 </html>

@@ -5,9 +5,9 @@
 }
 
 
-@media (max-width: 1279px) {
+@media (max-width: 879px) {
   .profile__wrapper {
     gap: 10px;
-    margin-left: 26px;
+    max-width: 282px;
   }
 }

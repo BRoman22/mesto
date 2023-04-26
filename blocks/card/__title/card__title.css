@@ -7,5 +7,5 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  inline-size: 190px;
+  max-width: 190px;
 }

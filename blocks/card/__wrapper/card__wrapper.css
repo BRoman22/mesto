@@ -1,6 +1,5 @@
 .card__wrapper {
-  margin: 25px 21px 31px;
-  height: 23px;
+  margin: 25px 21px;
   display: flex;
   justify-content: space-between;
   align-items: center;

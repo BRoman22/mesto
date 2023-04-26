@@ -7,3 +7,12 @@
   margin: 195px auto;
   position: relative;
 }
+
+
+@media (max-width: 1279px) {
+  .popup__body {
+    width: 282px;
+    height: 322px;
+    margin: 123px auto;
+  }
+}

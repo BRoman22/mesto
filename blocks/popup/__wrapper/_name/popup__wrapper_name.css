@@ -1,3 +1,11 @@
 .popup__wrapper_name {
   margin: 54px 36px 0;
 }
+
+
+@media (max-width: 1279px) {
+  .popup__wrapper_name {
+    margin: 72px 22px 0;
+    height: 27px;
+  }
+}

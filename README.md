@@ -1,6 +1,10 @@
-# Учебный проект Mesto яндекс практикум
+# Учебный проект Mesto от Яндекс Практикум
 
-### *Можно редактировать профиль пользователя, менять имя и описание*
+### вававава:
+- [x] Редактирование профиля пользователя через попап
+- [] Добавление / удаление картинок на страницу
+- [] Редактирование аватара
+- [] Лайки
 
 <br>
 
@@ -8,12 +12,12 @@
 - HTML
 - CSS
   - Адаптивная верстка
-  - flex/grid
+  - flex / grid
 - JS
   - работа с DOM
 - BEM Nested
 
 
-### **[Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)**
+#### **[Ссылка на макет в Figma](https://www.figma.com/file/2cn9N9jSkmxD84oJik7xL7/JavaScript.-Sprint-4?node-id=0%3A1)**
 
-### **[Ссылка на результат](https://broman22.github.io/mesto/)**
+#### **[Ссылка на результат](https://broman22.github.io/mesto/)**

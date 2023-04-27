@@ -9,8 +9,9 @@
   text-decoration: none;
   position: absolute;
   top: -40px;
-  left: 438px;
+  right: -40px;
   cursor: pointer;
+  transition: .5s;
 }
 
 .popup__close:hover {
@@ -21,7 +22,7 @@
 @media (max-width: 879px) {
   .popup__close {
     top: -36px;
-    left: 263px;
+    right: 0;
     width: 20px;
     height: 20px;
   }

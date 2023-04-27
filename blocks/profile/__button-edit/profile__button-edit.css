@@ -9,6 +9,7 @@
   border: 1px solid #FFF;
   background-color: #000;
   cursor: pointer;
+  transition: .5s;
 }
 
 .profile__button-edit:hover {

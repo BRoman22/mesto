@@ -11,6 +11,7 @@
   background-color: #000;
   margin-left: auto;
   cursor: pointer;
+  transition: .5s;
 }
 
 .profile__button-add:hover {

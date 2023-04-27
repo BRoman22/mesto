@@ -7,6 +7,8 @@
   height: 19px;
   text-decoration: none;
   cursor: pointer;
+  border: none;
+  transition: .5s;
 }
 
 .card__like:hover {

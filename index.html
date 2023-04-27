@@ -19,11 +19,11 @@
       <div class="profile__info">
         <div class="profile__wrapper">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <button class="profile__button-edit"></button>
+          <button type="button" class="profile__button-edit"></button>
         </div>
         <p class="profile__subtitle">Исследователь океана</p>
       </div>
-      <button class="profile__button-add"></button>
+      <button type="button" class="profile__button-add"></button>
     </section>
     <section class="cards">
       <ul class="cards__list">
@@ -31,42 +31,42 @@
           <img src="./images/card1.jpg" alt="старая поросшая травой церковь" class="card__image">
           <div class="card__wrapper">
             <h2 class="card__title">Карачаевск</h2>
-            <a class="card__like"></a>
+            <button type="button" class="card__like"></button>
           </div>
         </li>
         <li class="card">
           <img src="./images/card2.jpg" alt="поле уходящее в горизонт на фоне Эльбруса на закате" class="card__image">
           <div class="card__wrapper">
             <h2 class="card__title">Гора Эльбрус</h2>
-            <a class="card__like"></a>
+            <button type="button" class="card__like"></button>
           </div>
         </li>
         <li class="card">
           <img src="./images/card3.jpg" alt="лесистое и заснеженное ущелье кавказских гор" class="card__image">
           <div class="card__wrapper">
             <h2 class="card__title">Домбай</h2>
-            <a class="card__like"></a>
+            <button type="button" class="card__like"></button>
           </div>
         </li>
         <li class="card">
           <img src="./images/card2.jpg" alt="поле уходящее в горизонт на фоне Эльбруса на закате" class="card__image">
           <div class="card__wrapper">
             <h2 class="card__title">Гора Эльбрус</h2>
-            <a class="card__like"></a>
+            <button type="button" class="card__like"></button>
           </div>
         </li>
         <li class="card">
           <img src="./images/card3.jpg" alt="лесистое и заснеженное ущелье кавказских гор" class="card__image">
           <div class="card__wrapper">
             <h2 class="card__title">Домбай</h2>
-            <a class="card__like"></a>
+            <button type="button" class="card__like"></button>
           </div>
         </li>
         <li class="card">
           <img src="./images/card1.jpg" alt="старая поросшая травой церковь" class="card__image">
           <div class="card__wrapper">
             <h2 class="card__title">Карачаево-Черкессия</h2>
-            <a class="card__like"></a>
+            <button type="button" class="card__like"></button>
           </div>
         </li>
       </ul>
@@ -77,16 +77,18 @@
   </footer>
 
   <div class="popup">
-    <form class="popup__body">
-      <h2 class="popup__title">Редактировать профиль</h2>
-      <input type="text" class="popup__input">
-      <input type="text" class="popup__input">
-      <button class="popup__button">Сохранить</button>
+    <div class="popup__container">
+      <form name="profile" class="popup__body">
+        <h2 class="popup__title">Редактировать профиль</h2>
+        <input placeholder="Введите Имя" name="user-name" type="text" class="popup__input" required>
+        <input placeholder="О себе" name="user-bio" type="text" class="popup__input" required>
+        <button type="submit" class="popup__button">Сохранить</button>
+      </form>
       <a class="popup__close"></a>
-    </form>
+    </div>
   </div>
 
-  <script src="index.js"></script>
+  <script src="./scripts/index.js"></script>
 </body>
 
 </html>

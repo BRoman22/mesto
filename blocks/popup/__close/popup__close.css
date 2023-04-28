@@ -6,7 +6,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  text-decoration: none;
+  border: none;
+  background-color: transparent;
+  padding: 0;
   position: absolute;
   top: -40px;
   right: -40px;

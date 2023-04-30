@@ -9,6 +9,7 @@
   cursor: pointer;
   border: none;
   transition: .5s;
+  padding: 0;
 }
 
 .card__like:hover {

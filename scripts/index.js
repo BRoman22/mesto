@@ -6,6 +6,7 @@ const inputBio = popup.querySelector('input[name="user-bio"]');
 const profileName = document.querySelector('.profile__title');
 const profileBio = document.querySelector('.profile__subtitle');
 const profileAvatar = document.querySelector('.profile__avatar');
+const form = popup.querySelector('.popup__body');
 
 // Функция присваивает/удаляет класс елементу
 const togglePopup = (e) => e.classList.toggle('popup_opened');
@@ -25,16 +26,16 @@ openPopup.addEventListener('click', () => {
 // Функция закрывает попап
 closePopup.addEventListener('click', () => togglePopup(popup));
 
-popup.addEventListener('click', (e) => e.target === e.currentTarget ? togglePopup(popup) : '');
-
 // Фунцкия присваивает новое имя и био пользователя, присваивает альт для аватара на введеное имя
 const changeProfile = (e) => {
   e.preventDefault();
+
   profileName.textContent = inputName.value;
   profileBio.textContent = inputBio.value;
   profileAvatar.alt = inputName.value;
+
   togglePopup(popup);
 };
 
 // Фунцкия присваивает новое имя и био пользователя, присваивает альт для аватара на введеное имя
-popup.addEventListener('submit', changeProfile);
+form.addEventListener('submit', changeProfile);

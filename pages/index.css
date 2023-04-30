@@ -21,10 +21,10 @@
 @import url(../blocks/cards/__list/cards__list.css);
 @import url(../blocks/card/card.css);
 @import url(../blocks/card/__image/card__image.css);
-@import url(../blocks/card/__like/_active/card__like_active.css);
 @import url(../blocks/card/__wrapper/card__wrapper.css);
 @import url(../blocks/card/__title/card__title.css);
 @import url(../blocks/card/__like/card__like.css);
+@import url(../blocks/card/__like/_active/card__like_active.css);
 
 
 @import url(../blocks/footer/footer.css);

@@ -3,9 +3,9 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  background-color: #FFF;
   width: 22px;
   height: 19px;
-  text-decoration: none;
   cursor: pointer;
   border: none;
   transition: .5s;

@@ -2,11 +2,12 @@
   font-size: 18px;
   line-height: 1.22;
   font-weight: 400;
-  margin: 16px 0 0;
+  margin: 10px 0 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 490px;
+  grid-area: subtitle;
 }
 
 
@@ -14,7 +15,6 @@
   .profile__subtitle {
     font-size: 14px;
     line-height: 1.21;
-    margin: 14px 0 0;
-    max-width: 282px;
+    margin: 8px 0 0 28px;
   }
 }

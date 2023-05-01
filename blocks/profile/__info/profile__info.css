@@ -1,11 +1,18 @@
 .profile__info {
   margin-left: 30px;
-  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 42px;
+  grid-template-areas:
+    "title edit"
+    "subtitle edit"
+  ;
+  align-items: baseline;
 }
 
 
 @media (max-width: 879px) {
   .profile__info {
-    margin: 22px 0 0;
+    margin: 26px 0 0;
+    grid-template-columns: 1fr 28px;
   }
 }

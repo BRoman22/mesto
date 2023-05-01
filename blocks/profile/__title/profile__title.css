@@ -7,6 +7,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 500px;
+  grid-area: title;
 }
 
 
@@ -15,6 +16,5 @@
     font-size: 27px;
     line-height: 1.22;
     margin-left: 28px;
-    max-width: 220px;
   }
 }

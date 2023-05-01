@@ -11,6 +11,8 @@
   cursor: pointer;
   transition: .5s;
   padding: 0;
+  grid-area: edit;
+  margin-left: auto;
 }
 
 .profile__button-edit:hover {

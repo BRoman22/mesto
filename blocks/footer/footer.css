@@ -1,10 +1,10 @@
 .footer {
-  margin: 67px 0 60px;
+  padding: 67px 0 60px;
 }
 
 
 @media (max-width: 879px) {
   .footer {
-    margin: 48px 19px 36px;
+    padding: 48px 19px 36px;
   }
 }

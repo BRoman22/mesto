@@ -6,4 +6,7 @@
   margin: auto;
   min-width: 320px;
   max-width: 880px;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
 }

@@ -25,48 +25,7 @@
     </section>
     <section class="cards">
       <ul class="cards__list">
-        <li class="card">
-          <img src="./images/card1.jpg" alt="старая поросшая травой церковь" class="card__image">
-          <div class="card__wrapper">
-            <h2 class="card__title">Карачаевск</h2>
-            <button aria-label="нравится" type="button" class="card__like"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="./images/card2.jpg" alt="поле уходящее в горизонт на фоне Эльбруса на закате" class="card__image">
-          <div class="card__wrapper">
-            <h2 class="card__title">Гора Эльбрус</h2>
-            <button aria-label="нравится" type="button" class="card__like"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="./images/card3.jpg" alt="лесистое и заснеженное ущелье кавказских гор" class="card__image">
-          <div class="card__wrapper">
-            <h2 class="card__title">Домбай</h2>
-            <button aria-label="нравится" type="button" class="card__like"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="./images/card2.jpg" alt="поле уходящее в горизонт на фоне Эльбруса на закате" class="card__image">
-          <div class="card__wrapper">
-            <h2 class="card__title">Гора Эльбрус</h2>
-            <button aria-label="нравится" type="button" class="card__like"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="./images/card3.jpg" alt="лесистое и заснеженное ущелье кавказских гор" class="card__image">
-          <div class="card__wrapper">
-            <h2 class="card__title">Домбай</h2>
-            <button aria-label="нравится" type="button" class="card__like"></button>
-          </div>
-        </li>
-        <li class="card">
-          <img src="./images/card1.jpg" alt="старая поросшая травой церковь" class="card__image">
-          <div class="card__wrapper">
-            <h2 class="card__title">Карачаево-Черкессия</h2>
-            <button aria-label="нравится" type="button" class="card__like"></button>
-          </div>
-        </li>
+
       </ul>
     </section>
   </main>
@@ -85,6 +44,16 @@
       <button type="button" class="popup__close"></button>
     </div>
   </div>
+
+  <template id="card-template">
+    <li class="card">
+      <img src="" alt="" class="card__image">
+      <div class="card__wrapper">
+        <h2 class="card__title">Домбай</h2>
+        <button aria-label="нравится" type="button" class="card__like"></button>
+      </div>
+    </li>
+  </template>
 
   <script src="./scripts/index.js"></script>
 </body>

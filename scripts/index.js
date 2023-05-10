@@ -39,3 +39,41 @@ const changeProfile = (e) => {
 
 // Фунцкия присваивает новое имя и био пользователя, присваивает альт для аватара на введеное имя
 form.addEventListener('submit', changeProfile);
+
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
+  },
+];
+
+const cardList = document.querySelector('.cards__list');
+const template = document.querySelector('#card-template').content;
+
+initialCards.forEach((initialCards) => {
+  const cardElement = template.querySelector('.card').cloneNode(true);
+
+  cardElement.querySelector('.card__image').src = initialCards.link;
+  cardElement.querySelector('.card__title').textContent = initialCards.name;
+  cardList.append(cardElement);
+});

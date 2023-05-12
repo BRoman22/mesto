@@ -60,6 +60,7 @@ const openImagePopup = (title, link) => {
 const addCard = (e) => {
   e.preventDefault();
   createCard(inputCardName.value, inputCardLink.value);
+  clearInputs();
   toggleClass(cardPopup, 'popup_opened');
 };
 //функция создания карточки из шаблона
@@ -86,20 +87,15 @@ openProfile.addEventListener('click', () => {
   toggleClass(profilePopup, 'popup_opened');
   addInputsValue();
 });
-
 openCard.addEventListener('click', () => {
   toggleClass(cardPopup, 'popup_opened');
-  clearInputs();
 });
-
 closePopups.forEach((item) =>
   item.addEventListener('click', () =>
     toggleClass(item.closest('.popup'), 'popup_opened')
   )
 );
-
 formProfile.addEventListener('submit', changeProfile);
-
 formCard.addEventListener('submit', addCard);
 
 //массив изначальных карточек

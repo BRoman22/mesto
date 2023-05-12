@@ -1,45 +1,94 @@
-const openPopup = document.querySelector('.profile__button-edit');
-const popup = document.querySelector('.popup');
-const closePopup = popup.querySelector('.popup__close');
-const inputName = popup.querySelector('input[name="user-name"]');
-const inputBio = popup.querySelector('input[name="user-bio"]');
+//получаем попап изменения профиля
+const profilePopup = document.querySelector('.popup_profile');
+//получаем попап добавления карточки
+const cardPopup = document.querySelector('.popup_card');
+//кнопка открытия попапа профиля
+const openProfile = document.querySelector('.profile__button-edit');
+//кнопка открытия попапа добавления карточки
+const openCard = document.querySelector('.profile__button-add');
+//все кнопки закрытия попапов
+const closePopups = document.querySelectorAll('.popup__close');
+//форма профиля
+const formProfile = document.querySelector('.form_profile');
+//форма добавления карточки
+const formCard = document.querySelector('.form_card');
+//строка ввода имени попапа профиля
+const inputProfileName = formProfile.querySelector('.popup__input_name');
+//строка ввода о себе попапа профиля
+const inputProfileBio = formProfile.querySelector('.popup__input_bio');
+//строка ввода имени попапа добавления карточки
+const inputCardName = formCard.querySelector('.popup__input_name');
+//строка ввода ссылки попапа добавления карточки
+const inputCardLink = formCard.querySelector('.popup__input_link');
+//имя профиля на странице
 const profileName = document.querySelector('.profile__title');
+//о себе на странице
 const profileBio = document.querySelector('.profile__subtitle');
-const profileAvatar = document.querySelector('.profile__avatar');
-const form = popup.querySelector('.popup__body');
+//елемент куда добавляются карточки
+const cardsList = document.querySelector('.cards__list');
 
-// Функция присваивает/удаляет класс елементу
-const togglePopup = (e) => e.classList.toggle('popup_opened');
-
-// Функция присваивает текущее имя и био пользователя в инпуты попапа
+//функция переключения класса, принимает елемент и класс
+const toggleClass = (element, classElement) =>
+  element.classList.toggle(classElement);
+//функция удаления карточки
+const deleteCard = (e) => e.target.closest('.card').remove();
+//функция заполения инпутов попапа профиля со страницы
 const addInputsValue = () => {
-  inputName.value = profileName.textContent;
-  inputBio.value = profileBio.textContent;
+  inputProfileName.value = profileName.textContent;
+  inputProfileBio.value = profileBio.textContent;
+};
+//функция обнуления инпутов попапа карточки
+const clearInputs = () => {
+  inputCardName.value = '';
+  inputCardLink.value = '';
+};
+//функция изменения имени и о себе на странице
+const changeProfile = (e) => {
+  e.preventDefault();
+  profileName.textContent = inputProfileName.value;
+  profileBio.textContent = inputProfileBio.value;
+  toggleClass(profilePopup, 'popup_opened');
+};
+//функция добавления карточки
+const addCard = (e) => {
+  e.preventDefault();
+  createCard(inputCardName.value, inputCardLink.value);
+  toggleClass(cardPopup, 'popup_opened');
+};
+//функция создания карточки из шаблона
+const createCard = (title, link) => {
+  const template = document.querySelector('#card').content;
+  const card = template.querySelector('.card').cloneNode(true);
+  card.querySelector('.card__title').textContent = title;
+  card.querySelector('.card__image').src = link;
+  const like = card.querySelector('.card__like');
+  like.addEventListener('click', () => toggleClass(like, 'card__like_active'));
+  card.querySelector('.card__delete').addEventListener('click', deleteCard);
+  cardsList.prepend(card);
 };
 
-// Функция открывает попап и присваивает текущее имя и био пользователя в инпуты попапа
-openPopup.addEventListener('click', () => {
-  togglePopup(popup);
+//слушатели событий
+openProfile.addEventListener('click', () => {
+  toggleClass(profilePopup, 'popup_opened');
   addInputsValue();
 });
 
-// Функция закрывает попап
-closePopup.addEventListener('click', () => togglePopup(popup));
+openCard.addEventListener('click', () => {
+  toggleClass(cardPopup, 'popup_opened');
+  clearInputs();
+});
 
-// Фунцкия присваивает новое имя и био пользователя, присваивает альт для аватара на введеное имя
-const changeProfile = (e) => {
-  e.preventDefault();
+closePopups.forEach((item) =>
+  item.addEventListener('click', () =>
+    toggleClass(item.closest('.popup'), 'popup_opened')
+  )
+);
 
-  profileName.textContent = inputName.value;
-  profileBio.textContent = inputBio.value;
-  profileAvatar.alt = inputName.value;
+formProfile.addEventListener('submit', changeProfile);
 
-  togglePopup(popup);
-};
+formCard.addEventListener('submit', addCard);
 
-// Фунцкия присваивает новое имя и био пользователя, присваивает альт для аватара на введеное имя
-form.addEventListener('submit', changeProfile);
-
+//массив изначальных карточек
 const initialCards = [
   {
     name: 'Архыз',
@@ -67,13 +116,7 @@ const initialCards = [
   },
 ];
 
-const cardList = document.querySelector('.cards__list');
-const template = document.querySelector('#card-template').content;
-
-initialCards.forEach((initialCards) => {
-  const cardElement = template.querySelector('.card').cloneNode(true);
-
-  cardElement.querySelector('.card__image').src = initialCards.link;
-  cardElement.querySelector('.card__title').textContent = initialCards.name;
-  cardList.append(cardElement);
+//добавляем массив изначальных карточек при загрузке на страницу
+initialCards.forEach((card) => {
+  createCard(card.name, card.link);
 });

@@ -18,14 +18,13 @@
       <img src="./images/avatar.jpg" alt="Аватар пользователя" class="profile__avatar">
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
-        <button aria-label="закрыть" type="button" class="profile__button-edit"></button>
+        <button aria-label="редактировать" type="button" class="profile__button-edit"></button>
         <p class="profile__subtitle">Исследователь океана</p>
       </div>
-      <button aria-label="редактировать имя" type="button" class="profile__button-add"></button>
+      <button aria-label="добавить карточку" type="button" class="profile__button-add"></button>
     </section>
     <section class="cards">
       <ul class="cards__list">
-
       </ul>
     </section>
   </main>
@@ -33,25 +32,38 @@
     <p class="footer__copyright">&copy; 2023 Mesto Russia</p>
   </footer>
 
-  <div class="popup">
+  <div class="popup popup_profile">
     <div class="popup__container">
-      <form name="profile" class="popup__body">
+      <form name="profile" class="popup__form form_profile">
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input placeholder="Введите имя" name="user-name" type="text" class="popup__input" required>
-        <input placeholder=" О себе" name="user-bio" type="text" class="popup__input" required>
+        <input placeholder="Введите имя" name="name" type="text" class="popup__input popup__input_name" required>
+        <input placeholder="О себе" name="bio" type="text" class="popup__input popup__input_bio" required>
         <button type="submit" class="popup__button">Сохранить</button>
       </form>
-      <button type="button" class="popup__close"></button>
+      <button aria-label="закрыть" type="button" class="popup__close"></button>
     </div>
   </div>
 
-  <template id="card-template">
+  <div class="popup popup_card">
+    <div class="popup__container">
+      <form name="card" class="popup__form form_card">
+        <h2 class="popup__title">Новое место</h2>
+        <input placeholder="Название" name="name" type="text" class="popup__input popup__input_name" required>
+        <input placeholder="Ссылка на картинку" name="link" type="text" class="popup__input popup__input_link" required>
+        <button type="submit" class="popup__button">Создать</button>
+      </form>
+      <button aria-label="закрыть" type="button" class="popup__close"></button>
+    </div>
+  </div>
+
+  <template id="card">
     <li class="card">
       <img src="" alt="" class="card__image">
       <div class="card__wrapper">
-        <h2 class="card__title">Домбай</h2>
+        <h2 class="card__title"></h2>
         <button aria-label="нравится" type="button" class="card__like"></button>
       </div>
+      <button aria-label="удалить" type="button" class="card__delete"></button>
     </li>
   </template>
 

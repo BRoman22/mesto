@@ -1,7 +1,9 @@
-//получаем попап изменения профиля
+//попап изменения профиля
 const profilePopup = document.querySelector('.popup_profile');
-//получаем попап добавления карточки
+//попап добавления карточки
 const cardPopup = document.querySelector('.popup_card');
+//попап карточки
+const imagePopup = document.querySelector('.popup_image');
 //кнопка открытия попапа профиля
 const openProfile = document.querySelector('.profile__button-edit');
 //кнопка открытия попапа добавления карточки
@@ -30,8 +32,6 @@ const cardsList = document.querySelector('.cards__list');
 //функция переключения класса, принимает елемент и класс
 const toggleClass = (element, classElement) =>
   element.classList.toggle(classElement);
-//функция удаления карточки
-const deleteCard = (e) => e.target.closest('.card').remove();
 //функция заполения инпутов попапа профиля со страницы
 const addInputsValue = () => {
   inputProfileName.value = profileName.textContent;
@@ -49,6 +49,13 @@ const changeProfile = (e) => {
   profileBio.textContent = inputProfileBio.value;
   toggleClass(profilePopup, 'popup_opened');
 };
+//функция открытия попапа картинки
+const openImagePopup = (title, link) => {
+  imagePopup.querySelector('.popup__title_image').textContent =
+    title.textContent;
+  imagePopup.querySelector('.popup__image').src = link.src;
+  toggleClass(imagePopup, 'popup_opened');
+};
 //функция добавления карточки
 const addCard = (e) => {
   e.preventDefault();
@@ -59,13 +66,20 @@ const addCard = (e) => {
 const createCard = (title, link) => {
   const template = document.querySelector('#card').content;
   const card = template.querySelector('.card').cloneNode(true);
-  card.querySelector('.card__title').textContent = title;
-  card.querySelector('.card__image').src = link;
+  const cardTitle = card.querySelector('.card__title');
+  const cardImage = card.querySelector('.card__image');
   const like = card.querySelector('.card__like');
+  cardTitle.textContent = title;
+  cardImage.src = link;
   like.addEventListener('click', () => toggleClass(like, 'card__like_active'));
   card.querySelector('.card__delete').addEventListener('click', deleteCard);
+  cardImage.addEventListener('click', () =>
+    openImagePopup(cardTitle, cardImage)
+  );
   cardsList.prepend(card);
 };
+//функция удаления карточки
+const deleteCard = (e) => e.target.closest('.card').remove();
 
 //слушатели событий
 openProfile.addEventListener('click', () => {

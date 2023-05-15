@@ -1,5 +1,4 @@
 .popup__container_image {
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
-  position: relative;
-  margin: auto;
+  background-color: transparent;
+  max-width: 75vw;
 }

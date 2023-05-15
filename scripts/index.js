@@ -50,10 +50,11 @@ const changeProfile = (e) => {
   toggleClass(profilePopup, 'popup_opened');
 };
 //функция открытия попапа картинки
-const openImagePopup = (title, link) => {
+const openImagePopup = (title, image) => {
   imagePopup.querySelector('.popup__title_image').textContent =
     title.textContent;
-  imagePopup.querySelector('.popup__image').src = link.src;
+  imagePopup.querySelector('.popup__image').src = image.src;
+  imagePopup.querySelector('.popup__image').alt = image.alt;
   toggleClass(imagePopup, 'popup_opened');
 };
 //функция добавления карточки
@@ -72,6 +73,7 @@ const createCard = (title, link) => {
   const like = card.querySelector('.card__like');
   cardTitle.textContent = title;
   cardImage.src = link;
+  cardImage.alt = title;
   like.addEventListener('click', () => toggleClass(like, 'card__like_active'));
   card.querySelector('.card__delete').addEventListener('click', deleteCard);
   cardImage.addEventListener('click', () =>

@@ -6,8 +6,7 @@
   width: fit-content;
   grid-template-areas:
     "title edit"
-    "subtitle edit"
-  ;
+    "subtitle edit";
   align-items: baseline;
 }
 

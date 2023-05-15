@@ -11,9 +11,9 @@ const openCard = document.querySelector('.profile__button-add');
 //все кнопки закрытия попапов
 const closePopups = document.querySelectorAll('.popup__close');
 //форма профиля
-const formProfile = document.querySelector('.form_profile');
+const formProfile = document.querySelector('.popup__form_profile');
 //форма добавления карточки
-const formCard = document.querySelector('.form_card');
+const formCard = document.querySelector('.popup__form_card');
 //строка ввода имени попапа профиля
 const inputProfileName = formProfile.querySelector('.popup__input_name');
 //строка ввода о себе попапа профиля

@@ -4,6 +4,10 @@ const profilePopup = document.querySelector('.popup_profile');
 const cardPopup = document.querySelector('.popup_card');
 //попап картинки
 const picturePopup = document.querySelector('.popup_picture');
+//тайтл попапа картинки
+const picturePopupTitle = picturePopup.querySelector('.popup__title_picture');
+//изображение попапа картинки
+const picturePopupImage = picturePopup.querySelector('.popup__image');
 //кнопка открытия попапа профиля
 const buttonOpenProfilePopup = document.querySelector('.profile__button-edit');
 //кнопка открытия попапа добавления карточки
@@ -47,13 +51,6 @@ const changeProfile = (e) => {
   profileBio.textContent = inputProfileBio.value;
   handleClosePopup(profilePopup);
 };
-//функция открытия попапа картинки
-const openPicturePopup = (title, image) => {
-  picturePopupTitle.textContent = title.textContent;
-  picturePopupImage.src = image.src;
-  picturePopupImage.alt = image.alt;
-  handleOpenPopup(picturePopup);
-};
 //функция добавления карточки
 const addCard = (e) => {
   e.preventDefault();
@@ -61,6 +58,11 @@ const addCard = (e) => {
   renderCard(cardData);
   formCard.reset();
   handleClosePopup(cardPopup);
+};
+//функция добавления карточки на страницу
+const renderCard = (item) => {
+  const card = createCard(item);
+  cardsList.prepend(card);
 };
 //функция создания карточки из шаблона
 const createCard = (item) => {
@@ -74,19 +76,24 @@ const createCard = (item) => {
   cardImage.src = item.link;
   cardImage.alt = item.name;
 
-  cardLike.addEventListener('click', () => cardLike.classList.toggle('card__like_active'));
+  cardLike.addEventListener('click', () =>
+    cardLike.classList.toggle('card__like_active')
+  );
   cardDelete.addEventListener('click', handleDeleteCard);
-  cardImage.addEventListener('click', () => openPicturePopup(cardTitle, handlePictureClick));
-  
+  cardImage.addEventListener('click', () =>
+    handleOpenPicturePopup(cardTitle, cardImage)
+  );
   return card;
-};
-//функция добавления карточки на страницу
-const renderCard = (item) => {
-  const card = createCard(item);
-  cardsList.prepend(card);
 };
 //функция удаления карточки
 const handleDeleteCard = (e) => e.target.closest('.card').remove();
+//функция открытия попапа картинки
+const handleOpenPicturePopup = (title, image) => {
+  picturePopupTitle.textContent = title.textContent;
+  picturePopupImage.src = image.src;
+  picturePopupImage.alt = image.alt;
+  handleOpenPopup(picturePopup);
+};
 
 //слушатели событий
 buttonOpenProfilePopup.addEventListener('click', () => {

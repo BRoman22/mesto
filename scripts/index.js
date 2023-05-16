@@ -36,9 +36,9 @@ const profileBio = document.querySelector('.profile__subtitle');
 const cardsList = document.querySelector('.cards__list');
 
 //функция открытия попапа
-const handleOpenPopup = (e) => e.classList.add('popup_opened');
+const openPopup = (element) => element.classList.add('popup_opened');
 //функция закрытия попапа
-const handleClosePopup = (e) => e.classList.remove('popup_opened');
+const closePopup = (element) => element.classList.remove('popup_opened');
 //функция заполения инпутов попапа профиля со страницы
 const addInputsData = () => {
   inputProfileName.value = profileName.textContent;
@@ -49,7 +49,7 @@ const changeProfile = (e) => {
   e.preventDefault();
   profileName.textContent = inputProfileName.value;
   profileBio.textContent = inputProfileBio.value;
-  handleClosePopup(profilePopup);
+  closePopup(profilePopup);
 };
 //функция добавления карточки
 const addCard = (e) => {
@@ -57,7 +57,7 @@ const addCard = (e) => {
   const cardData = { name: inputCardName.value, link: inputCardLink.value };
   renderCard(cardData);
   formCard.reset();
-  handleClosePopup(cardPopup);
+  closePopup(cardPopup);
 };
 //функция добавления карточки на страницу
 const renderCard = (item) => {
@@ -92,19 +92,19 @@ const handleOpenPicturePopup = (title, image) => {
   picturePopupTitle.textContent = title.textContent;
   picturePopupImage.src = image.src;
   picturePopupImage.alt = image.alt;
-  handleOpenPopup(picturePopup);
+  openPopup(picturePopup);
 };
 
 //слушатели событий
 buttonOpenProfilePopup.addEventListener('click', () => {
-  handleOpenPopup(profilePopup);
+  openPopup(profilePopup);
   addInputsData();
 });
 buttonOpenCardPopup.addEventListener('click', () => {
-  handleOpenPopup(cardPopup);
+  openPopup(cardPopup);
 });
 buttonClosePopups.forEach((item) =>
-  item.addEventListener('click', () => handleClosePopup(item.closest('.popup')))
+  item.addEventListener('click', () => closePopup(item.closest('.popup')))
 );
 formProfile.addEventListener('submit', changeProfile);
 formCard.addEventListener('submit', addCard);

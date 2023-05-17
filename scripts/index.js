@@ -60,33 +60,32 @@ const addCard = (e) => {
   closePopup(cardPopup);
 };
 //функция добавления карточки на страницу
-const renderCard = (item) => {
-  const card = createCard(item);
+const renderCard = (cardData) => {
+  const card = createCard(cardData);
   cardsList.prepend(card);
 };
 //функция создания карточки из шаблона
-const createCard = (item) => {
+const createCard = (cardData) => {
   const card = cardTemplate.querySelector('.card').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
   const cardImage = card.querySelector('.card__image');
   const cardLike = card.querySelector('.card__like');
   const cardDelete = card.querySelector('.card__delete');
 
-  cardTitle.textContent = item.name;
-  cardImage.src = item.link;
-  cardImage.alt = item.name;
+  cardTitle.textContent = cardData.name;
+  cardImage.src = cardData.link;
+  cardImage.alt = cardData.name;
 
-  cardLike.addEventListener('click', () =>
-    cardLike.classList.toggle('card__like_active')
-  );
-  cardDelete.addEventListener('click', handleDeleteCard);
-  cardImage.addEventListener('click', () =>
-    handleOpenPicturePopup(cardTitle, cardImage)
-  );
+  cardLike.addEventListener('click', () => handleToggleLike(cardLike));
+  cardDelete.addEventListener('click', () => handleDeleteCard(card));
+  cardImage.addEventListener('click', () => handleOpenPicturePopup(cardTitle, cardImage));
+
   return card;
 };
+//функция переключения лайка
+const handleToggleLike = (item) => item.classList.toggle('card__like_active');
 //функция удаления карточки
-const handleDeleteCard = (e) => e.target.closest('.card').remove();
+const handleDeleteCard = (item) => item.remove();
 //функция открытия попапа картинки
 const handleOpenPicturePopup = (title, image) => {
   picturePopupTitle.textContent = title.textContent;
@@ -100,9 +99,7 @@ buttonOpenProfilePopup.addEventListener('click', () => {
   openPopup(profilePopup);
   addInputsData();
 });
-buttonOpenCardPopup.addEventListener('click', () => {
-  openPopup(cardPopup);
-});
+buttonOpenCardPopup.addEventListener('click', () => openPopup(cardPopup));
 buttonClosePopups.forEach((item) =>
   item.addEventListener('click', () => closePopup(item.closest('.popup')))
 );
@@ -110,4 +107,4 @@ formProfile.addEventListener('submit', changeProfile);
 formCard.addEventListener('submit', addCard);
 
 //добавляем массив изначальных карточек при загрузке на страницу
-initialCards.forEach((item) => renderCard(item));
+initialCards.forEach((cardData) => renderCard(cardData));

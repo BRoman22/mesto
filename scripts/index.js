@@ -78,7 +78,7 @@ const createCard = (cardData) => {
 
   cardLike.addEventListener('click', () => handleToggleLike(cardLike));
   cardDelete.addEventListener('click', () => handleDeleteCard(card));
-  cardImage.addEventListener('click', () => handleOpenPicturePopup(cardTitle, cardImage));
+  cardImage.addEventListener('click', () => handleOpenPicturePopup(cardData));
 
   return card;
 };
@@ -87,10 +87,10 @@ const handleToggleLike = (item) => item.classList.toggle('card__like_active');
 //функция удаления карточки
 const handleDeleteCard = (item) => item.remove();
 //функция открытия попапа картинки
-const handleOpenPicturePopup = (title, image) => {
-  picturePopupTitle.textContent = title.textContent;
-  picturePopupImage.src = image.src;
-  picturePopupImage.alt = image.alt;
+const handleOpenPicturePopup = (cardData) => {
+  picturePopupTitle.textContent = cardData.name;
+  picturePopupImage.src = cardData.link;
+  picturePopupImage.alt = cardData.name;
   openPopup(picturePopup);
 };
 

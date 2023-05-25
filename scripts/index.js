@@ -1,4 +1,4 @@
-//попап изменения профиля
+//попап редактирования профиля
 const profilePopup = document.querySelector('.popup_profile');
 //попап добавления карточки
 const cardPopup = document.querySelector('.popup_card');
@@ -41,8 +41,12 @@ const openPopup = (element) => element.classList.add('popup_opened');
 const closePopup = (element) => element.classList.remove('popup_opened');
 //функция заполения инпутов попапа профиля со страницы
 const addInputsData = () => {
+  //const inputList = [inputProfileName, inputProfileBio];
+  //const buttonElement = formProfile.querySelector('.popup__button');
+
   inputProfileName.value = profileName.textContent;
   inputProfileBio.value = profileBio.textContent;
+  //toggleButtonState(inputList, buttonElement);
 };
 //функция изменения имени и о себе на странице
 const changeProfile = (e) => {
@@ -95,16 +99,26 @@ const handleOpenPicturePopup = (cardData) => {
 };
 
 //слушатели событий
+//открытие попапа профиля
 buttonOpenProfilePopup.addEventListener('click', () => {
   openPopup(profilePopup);
   addInputsData();
 });
+//открытие попапа карточки
 buttonOpenCardPopup.addEventListener('click', () => openPopup(cardPopup));
-buttonClosePopups.forEach((item) =>
-  item.addEventListener('click', () => closePopup(item.closest('.popup')))
-);
+//закрытие любого попапа на крестик и оверлэй
+document.addEventListener('mousedown', (e) => {
+  e.target.classList.contains('popup') ? closePopup(e.target) : null;
+  e.target.classList.contains('popup__close') ? closePopup(e.target.closest('.popup')) : null;
+});
+//закрытие любого попапа на клавишу Escape
+document.addEventListener('keydown', (e) => {
+  const popups = [profilePopup, cardPopup, picturePopup];
+  e.key === 'Escape' ? popups.forEach((item) => closePopup(item)) : null;
+});
+//сабмиты форм
 formProfile.addEventListener('submit', changeProfile);
 formCard.addEventListener('submit', addCard);
 
 //добавляем массив изначальных карточек при загрузке на страницу
-initialCards.forEach((cardData) => renderCard(cardData));
+initialCards.reverse().forEach((cardData) => renderCard(cardData));

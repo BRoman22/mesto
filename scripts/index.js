@@ -34,7 +34,7 @@ const addInputsData = () => {
 
   inputProfileName.value = profileName.textContent;
   inputProfileBio.value = profileBio.textContent;
-  toggleButtonState(inputList, buttonElement);
+  toggleButtonState(inputList, buttonElement, propsForm);
 };
 
 buttonOpenProfilePopup.addEventListener('click', () => {

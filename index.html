@@ -36,9 +36,9 @@
     <div class="popup__container">
       <form name="profile" class="popup__form popup__form_profile" novalidate>
         <h2 class="popup__title">Редактировать профиль</h2>
-        <input placeholder="Введите имя" name="name" type="text" class="popup__input popup__input_name" id="name-input"
-          minlength="2" maxlength="40" required>
-        <span class="popup__error name-input-error"></span>
+        <input placeholder="Введите имя" name="name" type="text" class="popup__input popup__input_name"
+          id="profile-name-input" minlength="2" maxlength="40" required>
+        <span class="popup__error profile-name-input-error"></span>
         <input placeholder="О себе" name="bio" type="text" class="popup__input popup__input_bio" id="bio-input"
           minlength="2" maxlength="200" required>
         <span class="popup__error bio-input-error"></span>
@@ -52,9 +52,9 @@
     <div class="popup__container">
       <form name="card" class="popup__form popup__form_card" novalidate>
         <h2 class="popup__title">Новое место</h2>
-        <input placeholder="Название" name="name" type="text" class="popup__input popup__input_name" id="name-input"
-          minlength="2" maxlength="30" required>
-        <span class="popup__error name-input-error"></span>
+        <input placeholder="Название" name="name" type="text" class="popup__input popup__input_name"
+          id="card-name-input" minlength="2" maxlength="30" required>
+        <span class="popup__error card-name-input-error"></span>
         <input placeholder="Ссылка на картинку" name="link" type="url" class="popup__input popup__input_link"
           id="link-input" required>
         <span class="popup__error link-input-error"></span>
@@ -65,11 +65,11 @@
   </div>
 
   <div class="popup popup_picture">
-    <figure class="popup__container popup__container_picture">
+    <div class="popup__container popup__container_picture">
       <img src="/" alt="изображение" class="popup__image">
-      <figcaption class="popup__title popup__title_picture">подпись</figcaption>
+      <h2 class="popup__title popup__title_picture">подпись</h2>
       <button aria-label="закрыть" type="button" class="popup__close"></button>
-    </figure>
+    </div>
   </div>
 
   <template id="card">

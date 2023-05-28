@@ -36,7 +36,7 @@ buttonOpenCardPopup.addEventListener('click', () => {
   toggleButtonState(inputsCardPopup, buttonCardPopup, propsForm);
 });
 
-const changeProfile = (e) => {
+const handleChangeProfile = (e) => {
   e.preventDefault();
   profileName.textContent = inputProfileName.value;
   profileBio.textContent = inputProfileBio.value;
@@ -51,7 +51,7 @@ const handleAddCard = (e) => {
   closePopup(cardPopup);
 };
 
-formProfile.addEventListener('submit', changeProfile);
+formProfile.addEventListener('submit', handleChangeProfile);
 formCard.addEventListener('submit', handleAddCard);
 
 //карточки

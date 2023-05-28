@@ -5,6 +5,7 @@ const profileBio = document.querySelector('.profile__subtitle');
 const profilePopup = document.querySelector('.popup_profile');
 const cardPopup = document.querySelector('.popup_card');
 const picturePopup = document.querySelector('.popup_picture');
+const popups = document.querySelectorAll('.popup');
 //кнопки открытия попапов
 const buttonOpenProfilePopup = document.querySelector('.profile__button-edit');
 const buttonOpenCardPopup = document.querySelector('.profile__button-add');

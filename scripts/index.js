@@ -1,28 +1,24 @@
 //попапы
 const openPopup = (element) => {
   element.classList.add('popup_opened');
-  element.addEventListener('mousedown', (e) =>
-    handleClosePopupFromCrossButtonAndOverlay(e, element)
-  );
-  document.addEventListener('keydown', (e) => handleClosePopupFromEsc(e, element));
+  document.addEventListener('keydown', handleClosePopupFromEsc);
 };
 
 const closePopup = (element) => {
   element.classList.remove('popup_opened');
-  element.removeEventListener('mousedown', (e) =>
-    handleClosePopupFromCrossButtonAndOverlay(e, element)
-  );
-  document.removeEventListener('keydown', (e) => handleClosePopupFromEsc(e, element));
+  document.removeEventListener('keydown', handleClosePopupFromEsc);
 };
 
-const handleClosePopupFromCrossButtonAndOverlay = (e, element) => {
-  e.target === element ? closePopup(element) : null;
-  e.target.classList.contains('popup__close') ? closePopup(element) : null;
+const handleClosePopupFromCrossButtonAndOverlay = (e) => {
+  e.target === e.currentTarget ? closePopup(e.currentTarget) : null;
+  e.target.classList.contains('popup__close') ? closePopup(e.currentTarget) : null;
 };
 
-const handleClosePopupFromEsc = (e, element) => {
-  e.key === 'Escape' ? closePopup(element) : null;
+const handleClosePopupFromEsc = (e) => {
+  e.key === 'Escape' ? closePopup(document.querySelector('.popup_opened')) : null;
 };
+
+popups.forEach((item) => item.addEventListener('click', handleClosePopupFromCrossButtonAndOverlay));
 
 const fillProfilePopupInputs = () => {
   inputProfileName.value = profileName.textContent;

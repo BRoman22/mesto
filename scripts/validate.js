@@ -1,12 +1,3 @@
-const propsForm = {
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_error',
-  errorClass: 'popup__error_active',
-};
-
 const showError = (formElement, inputElement, errorMessage, properties) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   errorElement.textContent = errorMessage;
@@ -49,7 +40,6 @@ const setEventListeners = (formElement, properties) => {
   const inputList = Array.from(formElement.querySelectorAll(properties.inputSelector));
   const buttonElement = formElement.querySelector(properties.submitButtonSelector);
 
-  toggleButtonState(inputList, buttonElement, properties);
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', function () {
       checkInputValidity(formElement, inputElement, properties);

@@ -1,58 +1,43 @@
-const profilePopup = document.querySelector('.popup_profile');
-const cardPopup = document.querySelector('.popup_card');
-const picturePopup = document.querySelector('.popup_picture');
-const picturePopupTitle = picturePopup.querySelector('.popup__title_picture');
-const picturePopupImage = picturePopup.querySelector('.popup__image');
-const buttonOpenProfilePopup = document.querySelector('.profile__button-edit');
-const buttonOpenCardPopup = document.querySelector('.profile__button-add');
-const buttonClosePopups = document.querySelectorAll('.popup__close');
-const formProfile = document.querySelector('.popup__form_profile');
-const formCard = document.querySelector('.popup__form_card');
-const cardTemplate = document.querySelector('#card').content;
-const inputProfileName = formProfile.querySelector('.popup__input_name');
-const inputProfileBio = formProfile.querySelector('.popup__input_bio');
-const inputCardName = formCard.querySelector('.popup__input_name');
-const inputCardLink = formCard.querySelector('.popup__input_link');
-const profileName = document.querySelector('.profile__title');
-const profileBio = document.querySelector('.profile__subtitle');
-const cardsList = document.querySelector('.cards__list');
-
 //попапы
 const openPopup = (element) => {
   element.classList.add('popup_opened');
-  document.addEventListener('keydown', closePopupsFromEsc);
+  element.addEventListener('mousedown', (e) => closePopupFromCrossButtonAndOverlay(e, element));
+  document.addEventListener('keydown', (e) => {
+    console.log(e);
+    closePopupFromEsc(e, element);
+  });
 };
 
 const closePopup = (element) => {
   element.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closePopupsFromEsc);
+  element.removeEventListener('mousedown', (e) => closePopupFromCrossButtonAndOverlay(e, element));
+  document.removeEventListener('keydown', (e) => closePopupFromEsc(e, element));
 };
 
-const addInputsData = () => {
-  const inputList = [inputProfileName, inputProfileBio];
-  const buttonElement = formProfile.querySelector('.popup__button');
+const closePopupFromCrossButtonAndOverlay = (e, element) => {
+  e.target.classList.contains('popup') ? closePopup(element) : null;
+  e.target.classList.contains('popup__close') ? closePopup(element) : null;
+};
 
+const closePopupFromEsc = (e, element) => {
+  e.key === 'Escape' ? closePopup(element) : null;
+};
+
+const fillProfilePopupInputs = () => {
   inputProfileName.value = profileName.textContent;
   inputProfileBio.value = profileBio.textContent;
-  toggleButtonState(inputList, buttonElement, propsForm);
 };
 
 buttonOpenProfilePopup.addEventListener('click', () => {
+  fillProfilePopupInputs();
   openPopup(profilePopup);
-  addInputsData();
+  toggleButtonState(inputsProfilePopup, buttonProfilePopup, propsForm);
 });
 
-buttonOpenCardPopup.addEventListener('click', () => openPopup(cardPopup));
-
-document.addEventListener('mousedown', (e) => {
-  e.target.classList.contains('popup') ? closePopup(e.target) : null;
-  e.target.classList.contains('popup__close') ? closePopup(e.target.closest('.popup')) : null;
+buttonOpenCardPopup.addEventListener('click', () => {
+  openPopup(cardPopup);
+  toggleButtonState(inputsCardPopup, buttonCardPopup, propsForm);
 });
-
-const closePopupsFromEsc = (e) => {
-  const popups = [profilePopup, cardPopup, picturePopup];
-  e.key === 'Escape' ? popups.forEach((item) => closePopup(item)) : null;
-};
 
 const changeProfile = (e) => {
   e.preventDefault();
@@ -61,19 +46,19 @@ const changeProfile = (e) => {
   closePopup(profilePopup);
 };
 
-const addCard = (e) => {
+const handleAddCard = (e) => {
   e.preventDefault();
   const cardData = { name: inputCardName.value, link: inputCardLink.value };
-  renderCard(cardData);
+  renderCard(cardData, cardsList);
   formCard.reset();
   closePopup(cardPopup);
 };
 
 formProfile.addEventListener('submit', changeProfile);
-formCard.addEventListener('submit', addCard);
+formCard.addEventListener('submit', handleAddCard);
 
 //карточки
-const renderCard = (cardData) => {
+const renderCard = (cardData, cardsList) => {
   const card = createCard(cardData);
   cardsList.prepend(card);
 };
@@ -107,4 +92,4 @@ const handleOpenPicturePopup = (cardData) => {
   openPopup(picturePopup);
 };
 
-initialCards.reverse().forEach((cardData) => renderCard(cardData));
+initialCards.reverse().forEach((cardData) => renderCard(cardData, cardsList));

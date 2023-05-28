@@ -2,10 +2,7 @@
 const openPopup = (element) => {
   element.classList.add('popup_opened');
   element.addEventListener('mousedown', (e) => closePopupFromCrossButtonAndOverlay(e, element));
-  document.addEventListener('keydown', (e) => {
-    console.log(e);
-    closePopupFromEsc(e, element);
-  });
+  document.addEventListener('keydown', (e) => closePopupFromEsc(e, element));
 };
 
 const closePopup = (element) => {

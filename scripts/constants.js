@@ -8,8 +8,6 @@ const picturePopup = document.querySelector('.popup_picture');
 //кнопки открытия попапов
 const buttonOpenProfilePopup = document.querySelector('.profile__button-edit');
 const buttonOpenCardPopup = document.querySelector('.profile__button-add');
-//все крестики попапов
-const buttonClosePopups = document.querySelectorAll('.popup__close');
 //форма попапа профиля
 const formProfile = document.querySelector('.popup__form_profile');
 const inputProfileName = formProfile.querySelector('.popup__input_name');

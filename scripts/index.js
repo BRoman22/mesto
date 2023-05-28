@@ -1,22 +1,26 @@
 //попапы
 const openPopup = (element) => {
   element.classList.add('popup_opened');
-  element.addEventListener('mousedown', (e) => closePopupFromCrossButtonAndOverlay(e, element));
-  document.addEventListener('keydown', (e) => closePopupFromEsc(e, element));
+  element.addEventListener('mousedown', (e) =>
+    handleClosePopupFromCrossButtonAndOverlay(e, element)
+  );
+  document.addEventListener('keydown', (e) => handleClosePopupFromEsc(e, element));
 };
 
 const closePopup = (element) => {
   element.classList.remove('popup_opened');
-  element.removeEventListener('mousedown', (e) => closePopupFromCrossButtonAndOverlay(e, element));
-  document.removeEventListener('keydown', (e) => closePopupFromEsc(e, element));
+  element.removeEventListener('mousedown', (e) =>
+    handleClosePopupFromCrossButtonAndOverlay(e, element)
+  );
+  document.removeEventListener('keydown', (e) => handleClosePopupFromEsc(e, element));
 };
 
-const closePopupFromCrossButtonAndOverlay = (e, element) => {
+const handleClosePopupFromCrossButtonAndOverlay = (e, element) => {
   e.target.classList.contains('popup') ? closePopup(element) : null;
   e.target.classList.contains('popup__close') ? closePopup(element) : null;
 };
 
-const closePopupFromEsc = (e, element) => {
+const handleClosePopupFromEsc = (e, element) => {
   e.key === 'Escape' ? closePopup(element) : null;
 };
 

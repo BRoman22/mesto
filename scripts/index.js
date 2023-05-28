@@ -16,7 +16,7 @@ const closePopup = (element) => {
 };
 
 const handleClosePopupFromCrossButtonAndOverlay = (e, element) => {
-  e.target.classList.contains('popup') ? closePopup(element) : null;
+  e.target === element ? closePopup(element) : null;
   e.target.classList.contains('popup__close') ? closePopup(element) : null;
 };
 

@@ -43,10 +43,16 @@ const handleChangeProfile = (e) => {
   closePopup(profilePopup);
 };
 
+const renderCard = (cardData, templateSelector) => {
+  const card = new Card(cardData, templateSelector);
+  const cardElement = card.generateCard();
+  cardsList.prepend(cardElement);
+};
+
 const handleAddCard = (e) => {
   e.preventDefault();
   const cardData = { name: inputCardName.value, link: inputCardLink.value };
-  renderCard(cardData, cardsList);
+  renderCard(cardData, '#card');
   formCard.reset();
   closePopup(cardPopup);
 };
@@ -107,9 +113,4 @@ class Card {
   }
 }
 
-initialCards.reverse().forEach((cardData) => {
-  const card = new Card(cardData, '#card');
-  const cardElement = card.generateCard();
-
-  document.querySelector('.cards__list').prepend(cardElement);
-});
+initialCards.reverse().forEach((cardData) => renderCard(cardData, '#card'));

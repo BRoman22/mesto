@@ -24,6 +24,8 @@ const buttonCardPopup = cardPopup.querySelector('.popup__button');
 //элементы попапа изображения
 const picturePopupTitle = picturePopup.querySelector('.popup__title_picture');
 const picturePopupImage = picturePopup.querySelector('.popup__image');
+//контейнер куда добавляем карточки
+const cardsList = document.querySelector('.cards__list');
 //свойства формы для валидации
 const propsForm = {
   formSelector: '.popup__form',

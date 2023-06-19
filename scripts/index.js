@@ -55,38 +55,61 @@ formProfile.addEventListener('submit', handleChangeProfile);
 formCard.addEventListener('submit', handleAddCard);
 
 //карточки
-const renderCard = (cardData, cardsList) => {
-  const card = createCard(cardData);
-  cardsList.prepend(card);
-};
+class Card {
+  constructor(cardData, templateSelector) {
+    this._title = cardData.name;
+    this._link = cardData.link;
+    this._templateSelector = templateSelector;
+  }
 
-const createCard = (cardData) => {
-  const card = cardTemplate.querySelector('.card').cloneNode(true);
-  const cardTitle = card.querySelector('.card__title');
-  const cardImage = card.querySelector('.card__image');
-  const cardLike = card.querySelector('.card__like');
-  const cardDelete = card.querySelector('.card__delete');
+  _getTemplate() {
+    const cardElement = document
+      .querySelector(this._templateSelector)
+      .content.querySelector('.card')
+      .cloneNode(true);
+    return cardElement;
+  }
 
-  cardTitle.textContent = cardData.name;
-  cardImage.src = cardData.link;
-  cardImage.alt = cardData.name;
+  _handleToggleLike(item) {
+    item.classList.toggle('card__like_active');
+  }
 
-  cardLike.addEventListener('click', () => handleToggleLike(cardLike));
-  cardDelete.addEventListener('click', () => handleDeleteCard(card));
-  cardImage.addEventListener('click', () => handleOpenPicturePopup(cardData));
+  _handleDeleteCard(item) {
+    item.remove();
+  }
 
-  return card;
-};
+  _handleOpenPicturePopup() {
+    picturePopupTitle.textContent = this._title;
+    picturePopupImage.src = this._link;
+    picturePopupImage.alt = this._title;
+    openPopup(picturePopup);
+  }
 
-const handleToggleLike = (item) => item.classList.toggle('card__like_active');
+  _setEventListeners() {
+    this._elementLike.addEventListener('click', () => this._handleToggleLike(this._elementLike));
+    this._elementDelete.addEventListener('click', () => this._handleDeleteCard(this._element));
+    this._elementImage.addEventListener('click', () => this._handleOpenPicturePopup());
+  }
 
-const handleDeleteCard = (item) => item.remove();
+  generateCard() {
+    this._element = this._getTemplate();
+    this._elementTitle = this._element.querySelector('.card__title');
+    this._elementImage = this._element.querySelector('.card__image');
+    this._elementLike = this._element.querySelector('.card__like');
+    this._elementDelete = this._element.querySelector('.card__delete');
 
-const handleOpenPicturePopup = (cardData) => {
-  picturePopupTitle.textContent = cardData.name;
-  picturePopupImage.src = cardData.link;
-  picturePopupImage.alt = cardData.name;
-  openPopup(picturePopup);
-};
+    this._elementTitle.textContent = this._title;
+    this._elementImage.src = this._link;
+    this._elementImage.alt = this._title;
 
-initialCards.reverse().forEach((cardData) => renderCard(cardData, cardsList));
+    this._setEventListeners();
+    return this._element;
+  }
+}
+
+initialCards.reverse().forEach((cardData) => {
+  const card = new Card(cardData, '#card');
+  const cardElement = card.generateCard();
+
+  document.querySelector('.cards__list').prepend(cardElement);
+});

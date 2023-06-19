@@ -24,10 +24,6 @@ const buttonCardPopup = cardPopup.querySelector('.popup__button');
 //элементы попапа изображения
 const picturePopupTitle = picturePopup.querySelector('.popup__title_picture');
 const picturePopupImage = picturePopup.querySelector('.popup__image');
-//шаблон создания карточки
-const cardTemplate = document.querySelector('#card').content;
-//элемент куда вставляется карточка
-const cardsList = document.querySelector('.cards__list');
 //свойства формы для валидации
 const propsForm = {
   formSelector: '.popup__form',

@@ -13,14 +13,14 @@ const buttonOpenCardPopup = document.querySelector('.profile__button-add');
 const formProfile = document.querySelector('.popup__form_profile');
 const inputProfileName = formProfile.querySelector('.popup__input_name');
 const inputProfileBio = formProfile.querySelector('.popup__input_bio');
-const inputsProfilePopup = [inputProfileName, inputProfileBio];
-const buttonProfilePopup = formProfile.querySelector('.popup__button');
+const inputsProfileForm = [inputProfileName, inputProfileBio];
+const buttonProfileForm = formProfile.querySelector('.popup__button');
 //форма попапа карточки
 const formCard = document.querySelector('.popup__form_card');
 const inputCardName = formCard.querySelector('.popup__input_name');
 const inputCardLink = formCard.querySelector('.popup__input_link');
-const inputsCardPopup = [inputCardName, inputCardLink];
-const buttonCardPopup = cardPopup.querySelector('.popup__button');
+const inputsCardForm = [inputCardName, inputCardLink];
+const buttonCardForm = cardPopup.querySelector('.popup__button');
 //элементы попапа изображения
 const picturePopupTitle = picturePopup.querySelector('.popup__title_picture');
 const picturePopupImage = picturePopup.querySelector('.popup__image');
@@ -28,7 +28,6 @@ const picturePopupImage = picturePopup.querySelector('.popup__image');
 const cardsList = document.querySelector('.cards__list');
 //свойства формы для валидации
 const propsForm = {
-  formSelector: '.popup__form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',

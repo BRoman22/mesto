@@ -28,12 +28,14 @@ const fillProfilePopupInputs = () => {
 buttonOpenProfilePopup.addEventListener('click', () => {
   fillProfilePopupInputs();
   openPopup(profilePopup);
-  toggleButtonState(inputsProfilePopup, buttonProfilePopup, propsForm);
+  const validateInputsProfileForm = new FormValidator(propsForm, formProfile);
+  validateInputsProfileForm._toggleButtonState(inputsProfileForm, buttonProfileForm);
 });
 
 buttonOpenCardPopup.addEventListener('click', () => {
   openPopup(cardPopup);
-  toggleButtonState(inputsCardPopup, buttonCardPopup, propsForm);
+  const validateInputsCardForm = new FormValidator(propsForm, formCard);
+  validateInputsCardForm._toggleButtonState(inputsCardForm, buttonCardForm);
 });
 
 const handleChangeProfile = (e) => {

@@ -1,4 +1,4 @@
-class FormValidator {
+export default class FormValidator {
   constructor(propsForm, formElement) {
     this._inputSelector = propsForm.inputSelector;
     this._submitButtonSelector = propsForm.submitButtonSelector;
@@ -62,8 +62,3 @@ class FormValidator {
     }
   }
 }
-
-const validateFormProfile = new FormValidator(propsForm, formProfile);
-validateFormProfile.enableValidation();
-const validateFormCard = new FormValidator(propsForm, formCard);
-validateFormCard.enableValidation();

@@ -1,6 +1,12 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
 
+//валидация форм
+const validateFormProfile = new FormValidator(propsForm, formProfile);
+validateFormProfile.enableValidation();
+const validateFormCard = new FormValidator(propsForm, formCard);
+validateFormCard.enableValidation();
+
 //попапы
 export const openPopup = (element) => {
   element.classList.add('popup_opened');
@@ -28,17 +34,21 @@ const fillProfilePopupInputs = () => {
   inputProfileBio.value = profileBio.textContent;
 };
 
+const resetInputs = () => {
+  inputCardName.value = '';
+  inputCardLink.value = '';
+};
+
 buttonOpenProfilePopup.addEventListener('click', () => {
   fillProfilePopupInputs();
   openPopup(profilePopup);
-  const validateInputsProfileForm = new FormValidator(propsForm, formProfile);
-  validateInputsProfileForm._toggleButtonState(inputsProfileForm, buttonProfileForm);
+  validateFormProfile.resetValidation();
 });
 
 buttonOpenCardPopup.addEventListener('click', () => {
+  resetInputs();
   openPopup(cardPopup);
-  const validateInputsCardForm = new FormValidator(propsForm, formCard);
-  validateInputsCardForm._toggleButtonState(inputsCardForm, buttonCardForm);
+  validateFormCard.resetValidation();
 });
 
 const handleChangeProfile = (e) => {
@@ -48,10 +58,14 @@ const handleChangeProfile = (e) => {
   closePopup(profilePopup);
 };
 
+const createCard = (cardData, templateSelector) => {
+  const cardElement = new Card(cardData, templateSelector).generateCard();
+  return cardElement;
+};
+
 const renderCard = (cardData, templateSelector) => {
-  const card = new Card(cardData, templateSelector);
-  const cardElement = card.generateCard();
-  cardsList.prepend(cardElement);
+  const card = createCard(cardData, templateSelector);
+  cardsList.prepend(card);
 };
 
 const handleAddCard = (e) => {
@@ -67,9 +81,3 @@ formCard.addEventListener('submit', handleAddCard);
 
 //отрисовка первоначальных карточек
 initialCards.reverse().forEach((cardData) => renderCard(cardData, '#card'));
-
-//валидация форм
-const validateFormProfile = new FormValidator(propsForm, formProfile);
-validateFormProfile.enableValidation();
-const validateFormCard = new FormValidator(propsForm, formCard);
-validateFormCard.enableValidation();

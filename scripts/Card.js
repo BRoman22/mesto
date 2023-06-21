@@ -15,27 +15,6 @@ export default class Card {
     return cardElement;
   }
 
-  _handleToggleLike(item) {
-    item.classList.toggle('card__like_active');
-  }
-
-  _handleDeleteCard(item) {
-    item.remove();
-  }
-
-  _handleOpenPicturePopup() {
-    picturePopupTitle.textContent = this._title;
-    picturePopupImage.src = this._link;
-    picturePopupImage.alt = this._title;
-    openPopup(picturePopup);
-  }
-
-  _setEventListeners() {
-    this._elementLike.addEventListener('click', () => this._handleToggleLike(this._elementLike));
-    this._elementDelete.addEventListener('click', () => this._handleDeleteCard(this._element));
-    this._elementImage.addEventListener('click', () => this._handleOpenPicturePopup());
-  }
-
   generateCard() {
     this._element = this._getTemplate();
     this._elementTitle = this._element.querySelector('.card__title');
@@ -49,5 +28,27 @@ export default class Card {
 
     this._setEventListeners();
     return this._element;
+  }
+
+  _setEventListeners() {
+    this._elementLike.addEventListener('click', () => this._handleToggleLike());
+    this._elementDelete.addEventListener('click', () => this._handleDeleteCard());
+    this._elementImage.addEventListener('click', () => this._handleOpenPicturePopup());
+  }
+
+  _handleToggleLike() {
+    this._elementLike.classList.toggle('card__like_active');
+  }
+
+  _handleDeleteCard() {
+    this._element.remove();
+    this._element = null;
+  }
+
+  _handleOpenPicturePopup() {
+    picturePopupTitle.textContent = this._title;
+    picturePopupImage.src = this._link;
+    picturePopupImage.alt = this._title;
+    openPopup(picturePopup);
   }
 }

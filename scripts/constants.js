@@ -13,14 +13,10 @@ const buttonOpenCardPopup = document.querySelector('.profile__button-add');
 const formProfile = document.querySelector('.popup__form_profile');
 const inputProfileName = formProfile.querySelector('.popup__input_name');
 const inputProfileBio = formProfile.querySelector('.popup__input_bio');
-const inputsProfileForm = [inputProfileName, inputProfileBio];
-const buttonProfileForm = formProfile.querySelector('.popup__button');
 //форма попапа карточки
 const formCard = document.querySelector('.popup__form_card');
 const inputCardName = formCard.querySelector('.popup__input_name');
 const inputCardLink = formCard.querySelector('.popup__input_link');
-const inputsCardForm = [inputCardName, inputCardLink];
-const buttonCardForm = cardPopup.querySelector('.popup__button');
 //элементы попапа изображения
 const picturePopupTitle = picturePopup.querySelector('.popup__title_picture');
 const picturePopupImage = picturePopup.querySelector('.popup__image');
@@ -33,4 +29,26 @@ const propsForm = {
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_error',
   errorClass: 'popup__error_active',
+};
+
+//экспорт всего файла
+export {
+  profileName,
+  profileBio,
+  profilePopup,
+  cardPopup,
+  picturePopup,
+  popups,
+  buttonOpenProfilePopup,
+  buttonOpenCardPopup,
+  formProfile,
+  inputProfileName,
+  inputProfileBio,
+  formCard,
+  inputCardName,
+  inputCardLink,
+  picturePopupTitle,
+  picturePopupImage,
+  cardsList,
+  propsForm,
 };

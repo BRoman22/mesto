@@ -1,5 +1,23 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import { initialCards } from './cards.js';
+import {
+  profileName,
+  profileBio,
+  profilePopup,
+  cardPopup,
+  popups,
+  buttonOpenProfilePopup,
+  buttonOpenCardPopup,
+  formProfile,
+  inputProfileName,
+  inputProfileBio,
+  formCard,
+  inputCardName,
+  inputCardLink,
+  cardsList,
+  propsForm,
+} from './constants.js';
 
 //валидация форм
 const validateFormProfile = new FormValidator(propsForm, formProfile);

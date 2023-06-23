@@ -17,13 +17,8 @@ import {
   inputCardLink,
   cardsList,
   propsForm,
+  propsCard,
 } from './constants.js';
-
-//валидация форм
-const validateFormProfile = new FormValidator(propsForm, formProfile);
-validateFormProfile.enableValidation();
-const validateFormCard = new FormValidator(propsForm, formCard);
-validateFormCard.enableValidation();
 
 //попапы
 export const openPopup = (element) => {
@@ -77,7 +72,7 @@ const handleChangeProfile = (e) => {
 };
 
 const createCard = (cardData, templateSelector) => {
-  const cardElement = new Card(cardData, templateSelector).generateCard();
+  const cardElement = new Card(cardData, templateSelector, propsCard).generateCard();
   return cardElement;
 };
 
@@ -99,3 +94,9 @@ formCard.addEventListener('submit', handleAddCard);
 
 //отрисовка первоначальных карточек
 initialCards.reverse().forEach((cardData) => renderCard(cardData, '#card'));
+
+//валидация форм
+const validateFormProfile = new FormValidator(propsForm, formProfile);
+validateFormProfile.enableValidation();
+const validateFormCard = new FormValidator(propsForm, formCard);
+validateFormCard.enableValidation();

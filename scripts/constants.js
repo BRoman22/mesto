@@ -22,13 +22,22 @@ const picturePopupTitle = picturePopup.querySelector('.popup__title_picture');
 const picturePopupImage = picturePopup.querySelector('.popup__image');
 //контейнер куда добавляем карточки
 const cardsList = document.querySelector('.cards__list');
-//свойства формы для валидации
+//свойства класса FormValidator
 const propsForm = {
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_error',
   errorClass: 'popup__error_active',
+};
+//свойства класса Card
+const propsCard = {
+  card: '.card',
+  cardTitle: '.card__title',
+  cardImage: '.card__image',
+  cardLike: '.card__like',
+  cardLikeActive: 'card__like_active',
+  cardDelete: '.card__delete',
 };
 
 //экспорт всего файла
@@ -51,4 +60,5 @@ export {
   picturePopupImage,
   cardsList,
   propsForm,
+  propsCard,
 };

@@ -1,11 +1,9 @@
-import { openPopup } from './index.js';
-import { picturePopup, picturePopupTitle, picturePopupImage } from './constants.js';
-
 export default class Card {
-  constructor(cardData, templateSelector, propsCard) {
+  constructor(cardData, templateSelector, propsCard, handleCardClick) {
     this._cardData = cardData;
     this._templateSelector = templateSelector;
     this._propsCard = propsCard;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -32,9 +30,9 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._elementLike.addEventListener('click', () => this._handleToggleLike());
-    this._elementDelete.addEventListener('click', () => this._handleDeleteCard());
-    this._elementImage.addEventListener('click', () => this._handleOpenPicturePopup());
+    this._elementLike.addEventListener('click', this._handleToggleLike.bind(this));
+    this._elementDelete.addEventListener('click', this._handleDeleteCard.bind(this));
+    this._elementImage.addEventListener('click', this._handleCardClick.bind(this));
   }
 
   _handleToggleLike() {
@@ -44,12 +42,5 @@ export default class Card {
   _handleDeleteCard() {
     this._element.remove();
     this._element = null;
-  }
-
-  _handleOpenPicturePopup() {
-    picturePopupTitle.textContent = this._cardData.name;
-    picturePopupImage.src = this._cardData.link;
-    picturePopupImage.alt = this._cardData.name;
-    openPopup(picturePopup);
   }
 }

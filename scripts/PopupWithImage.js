@@ -1,12 +1,13 @@
 import Popup from './Popup.js';
-import { picturePopupTitle, picturePopupImage } from './constants.js';
 
 export default class PopupWithImage extends Popup {
   open(cardData) {
-    this._cardData = cardData;
-    picturePopupTitle.textContent = this._cardData.name;
-    picturePopupImage.src = this._cardData.link;
-    picturePopupImage.alt = this._cardData.name;
+    const { name, link } = cardData;
+    const title = this._popup.querySelector('.popup__title');
+    const image = this._popup.querySelector('.popup__image');
+    title.textContent = name;
+    image.src = link;
+    image.alt = name;
     super.open();
   }
 }

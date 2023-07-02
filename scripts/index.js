@@ -1,102 +1,57 @@
 import Card from './Card.js';
 import FormValidator from './FormValidator.js';
+import PopupWithForm from './PopupWithForm.js';
 import PopupWithImage from './PopupWithImage.js';
 import Section from './Section.js';
+import UserInfo from './UserInfo.js';
 import { initialCards } from './cards.js';
 import {
   picturePopup,
-  profileName,
-  profileBio,
   profilePopup,
   cardPopup,
-  popups,
   buttonOpenProfilePopup,
   buttonOpenCardPopup,
   formProfile,
-  inputProfileName,
-  inputProfileBio,
   formCard,
-  inputCardName,
-  inputCardLink,
   cardsList,
   propsForm,
   propsCard,
 } from './constants.js';
 
-/*
-//попапы
-const openPopup = (element) => {
-  element.classList.add('popup_opened');
-  document.addEventListener('keydown', handleClosePopupFromEsc);
-};
-
-const closePopup = (element) => {
-  element.classList.remove('popup_opened');
-  document.removeEventListener('keydown', handleClosePopupFromEsc);
-};
-
-const handleClosePopupFromCrossButtonAndOverlay = (e) => {
-  e.target === e.currentTarget ? closePopup(e.currentTarget) : null;
-  e.target.classList.contains('popup__close') ? closePopup(e.currentTarget) : null;
-};
-
-const handleClosePopupFromEsc = (e) => {
-  e.key === 'Escape' ? closePopup(document.querySelector('.popup_opened')) : null;
-};
-
-popups.forEach((item) => item.addEventListener('click', handleClosePopupFromCrossButtonAndOverlay));
-*/
-const fillProfilePopupInputs = () => {
-  inputProfileName.value = profileName.textContent;
-  inputProfileBio.value = profileBio.textContent;
-};
-
-const resetInputs = () => {
-  inputCardName.value = '';
-  inputCardLink.value = '';
-};
+const userInfo = new UserInfo({ name: '.profile__title', bio: '.profile__subtitle' });
 
 buttonOpenProfilePopup.addEventListener('click', () => {
-  fillProfilePopupInputs();
-  //openPopup(profilePopup);
-  gg.open();
+  const popupForm = new PopupWithForm(profilePopup, (e) => {
+    e.preventDefault();
+    userInfo.setUserInfo(popupForm._getInputValues());
+    popupForm.close();
+  });
+  popupForm.setInputValues(userInfo.getUserInfo());
+  popupForm.open();
   validateFormProfile.resetValidation();
 });
 
 buttonOpenCardPopup.addEventListener('click', () => {
-  resetInputs();
-  openPopup(cardPopup);
+  const popupForm = new PopupWithForm(cardPopup, (e) => {
+    e.preventDefault();
+    const newCardList = new Section(
+      {
+        items: popupForm._getInputValues(),
+        renderer: (cardData) => {
+          const newCard = new Card(cardData, '#card', propsCard, () => {
+            new PopupWithImage(picturePopup).open(cardData);
+          }).generateCard();
+          newCardList.addItem(newCard);
+        },
+      },
+      cardsList
+    );
+    newCardList.renderItems();
+    popupForm.close();
+  });
+  popupForm.open();
   validateFormCard.resetValidation();
 });
-//submit profile
-const handleChangeProfile = (e) => {
-  e.preventDefault();
-  profileName.textContent = inputProfileName.value;
-  profileBio.textContent = inputProfileBio.value;
-  closePopup(profilePopup);
-};
-
-//submit card
-const handleAddCard = (e) => {
-  e.preventDefault();
-  const cardData = { name: inputCardName.value, link: inputCardLink.value };
-  const newCardList = new Section(
-    {
-      items: cardData,
-      renderer: (item) => {
-        const newCard = new Card(item, '#card', propsCard).generateCard();
-        newCardList.addItem(newCard);
-      },
-    },
-    cardsList
-  );
-  newCardList.renderItems();
-  formCard.reset();
-  closePopup(cardPopup);
-};
-
-formProfile.addEventListener('submit', handleChangeProfile);
-formCard.addEventListener('submit', handleAddCard);
 
 //валидация форм
 const validateFormProfile = new FormValidator(propsForm, formProfile);

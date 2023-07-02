@@ -42,22 +42,13 @@ const propsCard = {
 
 //экспорт всего файла
 export {
-  profileName,
-  profileBio,
   profilePopup,
   cardPopup,
   picturePopup,
-  popups,
   buttonOpenProfilePopup,
   buttonOpenCardPopup,
   formProfile,
-  inputProfileName,
-  inputProfileBio,
   formCard,
-  inputCardName,
-  inputCardLink,
-  picturePopupTitle,
-  picturePopupImage,
   cardsList,
   propsForm,
   propsCard,

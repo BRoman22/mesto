@@ -1,3 +1,5 @@
+import './index.css';
+
 import UserInfo from '../components/UserInfo.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
@@ -21,25 +23,27 @@ import {
 const userInfo = new UserInfo({ name: '.profile__title', bio: '.profile__subtitle' });
 
 buttonOpenProfilePopup.addEventListener('click', () => {
-  const popupForm = new PopupWithForm(profilePopup, (e) => {
+  const popup = new PopupWithForm(profilePopup, (e) => {
     e.preventDefault();
     userInfo.setUserInfo(popupForm._getInputValues());
-    popupForm.close();
+    popup.close();
   });
-  popupForm.setInputValues(userInfo.getUserInfo());
-  popupForm.open();
+  popup.setInputValues(userInfo.getUserInfo());
+  popup.open();
+  popup.setEventListeners();
   validateFormProfile.resetValidation();
 });
 
 buttonOpenCardPopup.addEventListener('click', () => {
-  const popupForm = new PopupWithForm(cardPopup, (e) => {
+  const popup = new PopupWithForm(cardPopup, (e) => {
     e.preventDefault();
     const newCardList = new Section(
       {
-        items: popupForm._getInputValues(),
+        items: popup._getInputValues(),
         renderer: (cardData) => {
           const newCard = new Card(cardData, '#card', propsCard, () => {
-            new PopupWithImage(picturePopup).open(cardData);
+            const gg = new PopupWithImage(picturePopup).open(cardData);
+            gg.setEventListeners();
           }).generateCard();
           newCardList.addItem(newCard);
         },
@@ -47,9 +51,10 @@ buttonOpenCardPopup.addEventListener('click', () => {
       cardsList
     );
     newCardList.renderItems();
-    popupForm.close();
+    popup.close();
   });
-  popupForm.open();
+  popup.open();
+  popup.setEventListeners();
   validateFormCard.resetValidation();
 });
 

@@ -34,6 +34,5 @@ export default class PopupWithForm extends Popup {
   _removeEventListeners() {
     super._removeEventListeners();
     this._popup.removeEventListener('submit', this._handleFormSubmit);
-    //nuzno li snimat listener s krestika popupa?v proshlih rabotah vsegda viseli
   }
 }

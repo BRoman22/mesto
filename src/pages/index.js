@@ -8,76 +8,73 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
 import { initialCards } from '../utils/cards.js';
 import {
-  picturePopup,
-  profilePopup,
-  cardPopup,
   buttonOpenProfilePopup,
   buttonOpenCardPopup,
-  formProfile,
-  formCard,
-  cardsList,
   propsForm,
   propsCard,
 } from '../utils/constants.js';
 
+const createCard = (data) => {
+  const card = new Card(data, '#card', propsCard, () => {
+    popupImage.open(data);
+  }).generateCard();
+  return card;
+};
+
+const renderCard = (data) => {
+  const card = createCard(data);
+  cardList.addItem(card);
+};
+
 const userInfo = new UserInfo({ name: '.profile__title', bio: '.profile__subtitle' });
 
+const popupImage = new PopupWithImage('.popup_picture');
+popupImage.setEventListeners();
+
+//
+const popupProfile = new PopupWithForm('.popup_profile', (e) => {
+  e.preventDefault();
+  userInfo.setUserInfo(popupProfile.getInputValues());
+  popupProfile.close();
+});
+
+popupProfile.setEventListeners();
+
 buttonOpenProfilePopup.addEventListener('click', () => {
-  const popup = new PopupWithForm(profilePopup, (e) => {
-    e.preventDefault();
-    userInfo.setUserInfo(popupForm._getInputValues());
-    popup.close();
-  });
-  popup.setInputValues(userInfo.getUserInfo());
-  popup.open();
-  popup.setEventListeners();
+  popupProfile.open();
+  popupProfile.setInputValues(userInfo.getUserInfo());
   validateFormProfile.resetValidation();
 });
 
+//
+const popupCard = new PopupWithForm('.popup_card', (e) => {
+  e.preventDefault();
+  renderCard(popupCard.getInputValues());
+  popupCard.close();
+});
+
+popupCard.setEventListeners();
+
 buttonOpenCardPopup.addEventListener('click', () => {
-  const popup = new PopupWithForm(cardPopup, (e) => {
-    e.preventDefault();
-    const newCardList = new Section(
-      {
-        items: popup._getInputValues(),
-        renderer: (cardData) => {
-          const newCard = new Card(cardData, '#card', propsCard, () => {
-            const gg = new PopupWithImage(picturePopup).open(cardData);
-            gg.setEventListeners();
-          }).generateCard();
-          newCardList.addItem(newCard);
-        },
-      },
-      cardsList
-    );
-    newCardList.renderItems();
-    popup.close();
-  });
-  popup.open();
-  popup.setEventListeners();
+  popupCard.open();
   validateFormCard.resetValidation();
 });
 
 //валидация форм
-const validateFormProfile = new FormValidator(propsForm, formProfile);
+const validateFormProfile = new FormValidator('.popup__form_profile', propsForm);
 validateFormProfile.enableValidation();
-const validateFormCard = new FormValidator(propsForm, formCard);
+const validateFormCard = new FormValidator('.popup__form_card', propsForm);
 validateFormCard.enableValidation();
 
 //отрисовка первоначальных карточек
-const initialCardList = new Section(
+const cardList = new Section(
   {
     items: initialCards,
     renderer: (items) => {
-      items.reverse().forEach((item) => {
-        let initialCards = new Card(item, '#card', propsCard, () => {
-          const imagePopup = new PopupWithImage(picturePopup);
-          imagePopup.open(item);
-        }).generateCard();
-        initialCardList.addItem(initialCards);
-      });
+      items.reverse().forEach((item) => renderCard(item));
     },
   },
-  cardsList
+  '.cards__list'
 );
-initialCardList.renderItems();
+
+cardList.renderer();

@@ -1,3 +1,5 @@
+//формы
+const formList = Array.from(document.querySelectorAll('.popup__form'));
 //кнопки открытия попапов
 const buttonOpenProfilePopup = document.querySelector('.profile__button-edit');
 const buttonOpenCardPopup = document.querySelector('.profile__button-add');
@@ -20,4 +22,4 @@ const propsCard = {
 };
 
 //экспорт всего файла
-export { buttonOpenProfilePopup, buttonOpenCardPopup, propsForm, propsCard };
+export { formList, buttonOpenProfilePopup, buttonOpenCardPopup, propsForm, propsCard };

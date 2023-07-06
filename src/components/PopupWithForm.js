@@ -20,8 +20,8 @@ export default class PopupWithForm extends Popup {
   }
 
   setInputValues(data) {
-    this._inputs.forEach((input, index) => {
-      input.value = data[Object.keys(data)[index]];
+    this._inputs.forEach((input) => {
+      input.value = data[input.name];
     });
   }
 

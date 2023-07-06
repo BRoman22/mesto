@@ -3,7 +3,7 @@ export default class FormValidator {
     formElement,
     { inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass }
   ) {
-    this._formElement = document.querySelector(formElement);
+    this._formElement = formElement;
 
     this._inputSelector = inputSelector;
     this._submitButtonSelector = submitButtonSelector;

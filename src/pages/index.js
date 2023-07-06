@@ -8,6 +8,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
 import { initialCards } from '../utils/cards.js';
 import {
+  formList,
   buttonOpenProfilePopup,
   buttonOpenCardPopup,
   propsForm,
@@ -43,7 +44,7 @@ popupProfile.setEventListeners();
 buttonOpenProfilePopup.addEventListener('click', () => {
   popupProfile.open();
   popupProfile.setInputValues(userInfo.getUserInfo());
-  validateFormProfile.resetValidation();
+  formValidators.profile.resetValidation();
 });
 
 //
@@ -57,14 +58,21 @@ popupCard.setEventListeners();
 
 buttonOpenCardPopup.addEventListener('click', () => {
   popupCard.open();
-  validateFormCard.resetValidation();
+  formValidators.card.resetValidation();
 });
 
 //валидация форм
-const validateFormProfile = new FormValidator('.popup__form_profile', propsForm);
-validateFormProfile.enableValidation();
-const validateFormCard = new FormValidator('.popup__form_card', propsForm);
-validateFormCard.enableValidation();
+const formValidators = {};
+const enableValidation = (config) => {
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(formElement, config);
+    const formName = formElement.getAttribute('name');
+    formValidators[formName] = validator;
+    validator.enableValidation();
+  });
+};
+
+enableValidation(propsForm);
 
 //отрисовка первоначальных карточек
 const cardList = new Section(

@@ -6,7 +6,7 @@ import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import FormValidator from '../components/FormValidator.js';
-import { initialCards } from '../utils/cards.js';
+import Api from '../components/Api.js';
 import {
   formList,
   buttonOpenProfilePopup,
@@ -15,24 +15,60 @@ import {
   propsCard,
 } from '../utils/constants.js';
 
-const createCard = (data) => {
+//
+function createCard(data) {
   const card = new Card(data, '#card', propsCard, () => {
     popupImage.open(data);
   }).generateCard();
   return card;
-};
+}
 
-const renderCard = (data) => {
+function renderCard(data) {
   const card = createCard(data);
   cardList.addItem(card);
-};
+}
 
+//создаю экземпляр контейнера для карточек
+const cardList = new Section(
+  {
+    renderer: (data) => data.forEach((item) => renderCard(item)),
+  },
+  '.cards__list'
+);
+
+//добавляю карточки с сервера
+const api = new Api();
+api
+  .getInitialCards()
+  .then((data) => cardList.renderer(data))
+  .catch((err) => console.log(`Ошибка ${err}`));
+
+//submit card
+const popupCard = new PopupWithForm('.popup_card', (e) => {
+  e.preventDefault();
+  popupCard.renderLoading(true);
+  api
+    .postNewCard(popupCard.getInputValues())
+    .then((card) => renderCard(card))
+    .catch((err) => console.log(err))
+    .finally(() => popupCard.renderLoading(false));
+  popupCard.close();
+});
+
+popupCard.setEventListeners();
+
+buttonOpenCardPopup.addEventListener('click', () => {
+  popupCard.open();
+  formValidators.card.resetValidation();
+});
+
+//
 const userInfo = new UserInfo({ name: '.profile__title', bio: '.profile__subtitle' });
 
 const popupImage = new PopupWithImage('.popup_picture');
 popupImage.setEventListeners();
 
-//
+//submit profile
 const popupProfile = new PopupWithForm('.popup_profile', (e) => {
   e.preventDefault();
   userInfo.setUserInfo(popupProfile.getInputValues());
@@ -47,20 +83,6 @@ buttonOpenProfilePopup.addEventListener('click', () => {
   formValidators.profile.resetValidation();
 });
 
-//
-const popupCard = new PopupWithForm('.popup_card', (e) => {
-  e.preventDefault();
-  renderCard(popupCard.getInputValues());
-  popupCard.close();
-});
-
-popupCard.setEventListeners();
-
-buttonOpenCardPopup.addEventListener('click', () => {
-  popupCard.open();
-  formValidators.card.resetValidation();
-});
-
 //валидация форм
 const formValidators = {};
 const enableValidation = (config) => {
@@ -73,16 +95,3 @@ const enableValidation = (config) => {
 };
 
 enableValidation(propsForm);
-
-//отрисовка первоначальных карточек
-const cardList = new Section(
-  {
-    items: initialCards,
-    renderer: (items) => {
-      items.reverse().forEach((item) => renderCard(item));
-    },
-  },
-  '.cards__list'
-);
-
-cardList.renderer();

@@ -1,21 +1,18 @@
 export default class Card {
   constructor(
-    { name, link },
+    { name, link, _id },
     templateSelector,
-    { card, cardTitle, cardImage, cardLike, cardLikeActive, cardDelete },
-    handleCardClick
+    propsCard,
+    { handleCardClick, deleteRequest }
   ) {
     this._name = name;
     this._link = link;
+    this._id = _id;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
+    this._deleteRequest = deleteRequest;
 
-    this._card = card;
-    this._cardTitle = cardTitle;
-    this._cardImage = cardImage;
-    this._cardLike = cardLike;
-    this._cardLikeActive = cardLikeActive;
-    this._cardDelete = cardDelete;
+    this._propsCard = propsCard;
 
     this._handleToggleLike = this._handleToggleLike.bind(this);
     this._handleDeleteCard = this._handleDeleteCard.bind(this);
@@ -24,17 +21,17 @@ export default class Card {
   _getTemplate() {
     const cardElement = document
       .querySelector(this._templateSelector)
-      .content.querySelector(this._card)
+      .content.querySelector(this._propsCard.card)
       .cloneNode(true);
     return cardElement;
   }
 
   generateCard() {
     this._element = this._getTemplate();
-    this._elementTitle = this._element.querySelector(this._cardTitle);
-    this._elementImage = this._element.querySelector(this._cardImage);
-    this._elementLike = this._element.querySelector(this._cardLike);
-    this._elementDelete = this._element.querySelector(this._cardDelete);
+    this._elementTitle = this._element.querySelector(this._propsCard.cardTitle);
+    this._elementImage = this._element.querySelector(this._propsCard.cardImage);
+    this._elementLike = this._element.querySelector(this._propsCard.cardLike);
+    this._elementDelete = this._element.querySelector(this._propsCard.cardDelete);
 
     this._elementTitle.textContent = this._name;
     this._elementImage.src = this._link;
@@ -51,11 +48,12 @@ export default class Card {
   }
 
   _handleToggleLike() {
-    this._elementLike.classList.toggle(this._cardLikeActive);
+    this._elementLike.classList.toggle(this._propsCard.cardLikeActive);
   }
 
   _handleDeleteCard() {
-    this._element.remove();
-    this._element = null;
+    this._deleteRequest(this._id);
+    //this._element.remove();
+    //this._element = null;
   }
 }

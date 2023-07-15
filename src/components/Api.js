@@ -1,32 +1,56 @@
 export default class Api {
-  constructor({ url, headers, body }) {
+  constructor(url, myToken) {
     this._url = url;
-    this._headers = headers;
-    this._body = body;
+    this._token = myToken;
   }
 
-  getCards() {
-    return fetch(this._url, {
-      headers: this._headers,
+  getUserInfo() {
+    return fetch(`${this._url}/v1/cohort-71/users/me`, {
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  postCard() {
-    return fetch(this._url, {
+  getInitialCards() {
+    return fetch(`${this._url}/v1/cohort-71/cards`, {
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+  }
+
+  addCard({ name, link }) {
+    return fetch(`${this._url}/v1/cohort-71/cards`, {
       method: 'POST',
-      headers: this._headers,
-      body: JSON.stringify({
-        name: this._body.name,
-        link: this._body.link,
-      }),
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, link }),
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  deleteCard(id) {
-    return fetch(`${this._url}/${id}`, {
-      //https://mesto.nomoreparties.co/v1/cohortId/cards/64b04c4574f67615b016f51f
+  removeCard(id) {
+    return fetch(`${this._url}/v1/cohort-71/cards/${id}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+  }
+
+  setUserInfo({ name, about }) {
+    return fetch(`${this._url}/v1/cohort-71/users/me`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, about }),
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 }

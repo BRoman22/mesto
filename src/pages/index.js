@@ -5,6 +5,7 @@ import Card from '../components/Card.js';
 import Section from '../components/Section.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
+import PopupWithConfirmation from '../components/PopupWithConfirmation';
 import FormValidator from '../components/FormValidator.js';
 import Api from '../components/Api.js';
 import { myToken } from '../utils/myToken.js';
@@ -16,19 +17,32 @@ import {
   propsCard,
 } from '../utils/constants.js';
 
+const api = new Api('https://nomoreparties.co', myToken);
+api
+  .getUserInfo()
+  .then((res) => userInfo.setUserInfo(res))
+  .catch((err) => console.log(err));
+
+const confirmationPopup = new PopupWithConfirmation('.popup_confirmation', {
+  handleFormSubmit: (id, element) => {
+    api
+      .removeCard(id)
+      .then(() => {
+        cardList.deleteItem(element);
+        confirmationPopup.close();
+      })
+      .catch((err) => console.log(err));
+  },
+});
+confirmationPopup.setEventListeners();
+
 //
 function createCard(data) {
   const card = new Card(data, '#card', propsCard, {
     handleCardClick: () => popupImage.open(data),
-    deleteRequest: (id) => {
-      new Api({
-        url: 'https://mesto.nomoreparties.co/v1/cohort-71/cards',
-        headers: {
-          authorization: myToken,
-          'Content-Type': 'application/json',
-        },
-      }).deleteCard(id);
-    },
+    //api.like,
+    //api.delCard,
+    handleDelete: confirmationPopup.open.bind(confirmationPopup),
   }).generateCard();
   return card;
 }
@@ -41,57 +55,25 @@ function renderCard(data) {
 //создаю экземпляр контейнера для карточек
 const cardList = new Section(
   {
-    renderer: (data) => data.reverse().forEach((item) => renderCard(item)),
+    renderer: (item) => renderCard(item),
   },
   '.cards__list'
 );
 
 //добавляю карточки с сервера
-const initialCards = new Api({
-  url: 'https://mesto.nomoreparties.co/v1/cohort-71/cards',
-  headers: {
-    authorization: myToken,
-    'Content-Type': 'application/json',
-  },
-});
-initialCards
-  .getCards()
-  .then((data) => cardList.renderer(data))
-  .catch((err) => console.log(`Ошибка ${err}`));
 
-//hard delete
-/*
-initialCards.getCards().then((res) => {
-  console.log(res[2]._id);
-  console.log(res[2].name);
-  return res[2]._id;
-})
-  .then((res) => {
-    const jjj = new Api({
-      url: 'https://mesto.nomoreparties.co/v1/cohort-71/cards',
-      headers: {
-        authorization: myToken,
-        'Content-Type': 'application/json',
-      },
-    }).deleteCard(res);
-  });
-*/
+api
+  .getInitialCards()
+  .then((data) => cardList.renderer(data))
+  .catch((err) => console.log(err));
 
 //submit card
 const popupCard = new PopupWithForm('.popup_card', (e) => {
   e.preventDefault();
   popupCard.renderLoading(true);
 
-  const newCard = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-71/cards',
-    headers: {
-      authorization: myToken,
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: popupCard.getInputValues(),
-  });
-  newCard
-    .postCard()
+  api
+    .addCard(popupCard.getInputValues())
     .then((card) => renderCard(card))
     .catch((err) => console.log(err))
     .finally(() => popupCard.renderLoading(false));
@@ -106,8 +88,12 @@ buttonOpenCardPopup.addEventListener('click', () => {
   formValidators.card.resetValidation();
 });
 
-//
-const userInfo = new UserInfo({ name: '.profile__title', bio: '.profile__subtitle' });
+//загружаю юзеринфо
+const userInfo = new UserInfo({
+  name: '.profile__title',
+  about: '.profile__subtitle',
+  avatar: '.profile__avatar',
+});
 
 const popupImage = new PopupWithImage('.popup_picture');
 popupImage.setEventListeners();
@@ -115,6 +101,13 @@ popupImage.setEventListeners();
 //submit profile
 const popupProfile = new PopupWithForm('.popup_profile', (e) => {
   e.preventDefault();
+
+  popupProfile.renderLoading(true);
+  api
+    .setUserInfo(popupProfile.getInputValues())
+    .catch((err) => console.log(err))
+    .finally(() => popupProfile.renderLoading(false));
+
   userInfo.setUserInfo(popupProfile.getInputValues());
   popupProfile.close();
 });

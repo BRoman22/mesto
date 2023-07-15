@@ -1,0 +1,10 @@
+.popup__button_confirmation {
+  margin: 0;
+  min-width: 358px;
+}
+
+@media (max-width: 879px) {
+  .popup__button_confirmation {
+    min-width: 238px;
+  }
+}

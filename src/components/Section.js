@@ -5,10 +5,15 @@ export default class Section {
   }
 
   renderer(data) {
-    this._renderer(data);
+    data.reverse().forEach((item) => this._renderer(item));
   }
 
   addItem(element) {
     this._container.prepend(element);
+  }
+
+  deleteItem(element) {
+    element.remove();
+    element = null;
   }
 }

@@ -1,16 +1,11 @@
 export default class Card {
-  constructor(
-    { name, link, _id },
-    templateSelector,
-    propsCard,
-    { handleCardClick, deleteRequest }
-  ) {
+  constructor({ name, link, _id }, templateSelector, propsCard, { handleCardClick, handleDelete }) {
     this._name = name;
     this._link = link;
     this._id = _id;
     this._templateSelector = templateSelector;
     this._handleCardClick = handleCardClick;
-    this._deleteRequest = deleteRequest;
+    this._handleDelete = handleDelete;
 
     this._propsCard = propsCard;
 
@@ -52,8 +47,7 @@ export default class Card {
   }
 
   _handleDeleteCard() {
-    this._deleteRequest(this._id);
-    //this._element.remove();
-    //this._element = null;
+    this._handleDelete(this._id, this._element);
+    this._element = null;
   }
 }

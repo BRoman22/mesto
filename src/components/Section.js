@@ -1,11 +1,18 @@
 export default class Section {
-  constructor({ renderer }, containerSelector) {
-    this._renderer = renderer;
+  constructor({ containerSelector, render }) {
+    this._render = render;
     this._container = document.querySelector(containerSelector);
   }
 
-  renderer(data) {
-    data.reverse().forEach((item) => this._renderer(item));
+  rendererArr(data, userId) {
+    data.reverse().forEach((item) => {
+      this._userId = userId;
+      this._render(item, this._checkMyCard(item.owner._id));
+    });
+  }
+
+  rendererCard(data) {
+    this._render(data, this._checkMyCard(data.owner._id));
   }
 
   addItem(element) {
@@ -15,5 +22,9 @@ export default class Section {
   deleteItem(element) {
     element.remove();
     element = null;
+  }
+
+  _checkMyCard(cardId) {
+    return cardId === this._userId;
   }
 }

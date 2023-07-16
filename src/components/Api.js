@@ -22,7 +22,7 @@ export default class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  addCard({ name, link }) {
+  postCard({ name, link }) {
     return fetch(`${this._url}/v1/cohort-71/cards`, {
       method: 'POST',
       headers: {

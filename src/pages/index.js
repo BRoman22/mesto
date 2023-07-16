@@ -17,13 +17,28 @@ import {
   propsCard,
 } from '../utils/constants.js';
 
-const api = new Api('https://nomoreparties.co', myToken);
-api
-  .getUserInfo()
-  .then((res) => userInfo.setUserInfo(res))
-  .catch((err) => console.log(err));
+//функция создания карточки
+function createCard(data, myCard) {
+  const card = new Card(data, '#card', propsCard, myCard, {
+    handleCardClick: () => popupImage.open(data),
+    //api.like,
+    handleDelete: confirmationPopup.open.bind(confirmationPopup),
+  }).generateCard();
+  return card;
+}
 
-const confirmationPopup = new PopupWithConfirmation('.popup_confirmation', {
+//экземпляр контейнера для карточек
+const cardList = new Section({
+  containerSelector: '.cards__list',
+  render: (data, myCard) => {
+    const card = createCard(data, myCard);
+    cardList.addItem(card);
+  },
+});
+
+//экземпляр попапа с подверждением уделения карточки
+const confirmationPopup = new PopupWithConfirmation({
+  popupSelector: '.popup_confirmation',
   handleFormSubmit: (id, element) => {
     api
       .removeCard(id)
@@ -36,89 +51,59 @@ const confirmationPopup = new PopupWithConfirmation('.popup_confirmation', {
 });
 confirmationPopup.setEventListeners();
 
-//
-function createCard(data) {
-  const card = new Card(data, '#card', propsCard, {
-    handleCardClick: () => popupImage.open(data),
-    //api.like,
-    //api.delCard,
-    handleDelete: confirmationPopup.open.bind(confirmationPopup),
-  }).generateCard();
-  return card;
-}
+//сабмит карточки
+const popupCard = new PopupWithForm({
+  popupSelector: '.popup_card',
+  handleFormSubmit: (e) => {
+    e.preventDefault();
+    popupCard.renderLoading(true);
+    api
+      .postCard(popupCard.getInputValues())
+      .then((cardData) => cardList.rendererCard(cardData))
+      .catch((err) => console.log(err))
+      .finally(() => popupCard.renderLoading(false));
 
-function renderCard(data) {
-  const card = createCard(data);
-  cardList.addItem(card);
-}
-
-//создаю экземпляр контейнера для карточек
-const cardList = new Section(
-  {
-    renderer: (item) => renderCard(item),
+    popupCard.close();
   },
-  '.cards__list'
-);
-
-//добавляю карточки с сервера
-
-api
-  .getInitialCards()
-  .then((data) => cardList.renderer(data))
-  .catch((err) => console.log(err));
-
-//submit card
-const popupCard = new PopupWithForm('.popup_card', (e) => {
-  e.preventDefault();
-  popupCard.renderLoading(true);
-
-  api
-    .addCard(popupCard.getInputValues())
-    .then((card) => renderCard(card))
-    .catch((err) => console.log(err))
-    .finally(() => popupCard.renderLoading(false));
-
-  popupCard.close();
 });
-
 popupCard.setEventListeners();
-
 buttonOpenCardPopup.addEventListener('click', () => {
   popupCard.open();
   formValidators.card.resetValidation();
 });
 
-//загружаю юзеринфо
+//сабмит профиля
+const popupProfile = new PopupWithForm({
+  popupSelector: '.popup_profile',
+  handleFormSubmit: (e) => {
+    e.preventDefault();
+    popupProfile.renderLoading(true);
+    api
+      .setUserInfo(popupProfile.getInputValues())
+      .catch((err) => console.log(err))
+      .finally(() => popupProfile.renderLoading(false));
+
+    userInfo.setUserInfo(popupProfile.getInputValues());
+    popupProfile.close();
+  },
+});
+popupProfile.setEventListeners();
+buttonOpenProfilePopup.addEventListener('click', () => {
+  popupProfile.open();
+  popupProfile.setInputValues(userInfo.getUserInfo());
+  formValidators.profile.resetValidation();
+});
+
+//экземпляр профиля юзера
 const userInfo = new UserInfo({
   name: '.profile__title',
   about: '.profile__subtitle',
   avatar: '.profile__avatar',
 });
 
+//экземпляр попапа с картинкой
 const popupImage = new PopupWithImage('.popup_picture');
 popupImage.setEventListeners();
-
-//submit profile
-const popupProfile = new PopupWithForm('.popup_profile', (e) => {
-  e.preventDefault();
-
-  popupProfile.renderLoading(true);
-  api
-    .setUserInfo(popupProfile.getInputValues())
-    .catch((err) => console.log(err))
-    .finally(() => popupProfile.renderLoading(false));
-
-  userInfo.setUserInfo(popupProfile.getInputValues());
-  popupProfile.close();
-});
-
-popupProfile.setEventListeners();
-
-buttonOpenProfilePopup.addEventListener('click', () => {
-  popupProfile.open();
-  popupProfile.setInputValues(userInfo.getUserInfo());
-  formValidators.profile.resetValidation();
-});
 
 //валидация форм
 const formValidators = {};
@@ -130,5 +115,16 @@ const enableValidation = (config) => {
     validator.enableValidation();
   });
 };
-
 enableValidation(propsForm);
+
+//загрузка профиля и карточек
+const api = new Api('https://nomoreparties.co', myToken);
+const userProfile = api.getUserInfo();
+const initialCards = api.getInitialCards();
+
+Promise.all([userProfile, initialCards])
+  .then(([userProfile, initialCards]) => {
+    userInfo.setUserInfo(userProfile);
+    cardList.rendererArr(initialCards, userProfile._id);
+  })
+  .catch((err) => console.log(err));

@@ -17,6 +17,7 @@ const propsCard = {
   cardTitle: '.card__title',
   cardImage: '.card__image',
   cardLike: '.card__like',
+  cardLikeCounter: '.card__counter',
   cardLikeActive: 'card__like_active',
   cardDelete: '.card__delete',
 };

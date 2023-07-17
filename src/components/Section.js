@@ -4,15 +4,15 @@ export default class Section {
     this._container = document.querySelector(containerSelector);
   }
 
-  rendererArr(data, userId) {
+  rendererArr(data, userData) {
+    this._userData = userData;
     data.reverse().forEach((item) => {
-      this._userId = userId;
-      this._render(item, this._checkMyCard(item.owner._id));
+      this._render(item, this._userData);
     });
   }
 
   rendererCard(data) {
-    this._render(data, this._checkMyCard(data.owner._id));
+    this._render(data, this._userData);
   }
 
   addItem(element) {
@@ -22,9 +22,5 @@ export default class Section {
   deleteItem(element) {
     element.remove();
     element = null;
-  }
-
-  _checkMyCard(cardId) {
-    return cardId === this._userId;
   }
 }

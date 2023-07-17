@@ -33,8 +33,8 @@ export default class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  removeCard(id) {
-    return fetch(`${this._url}/v1/cohort-71/cards/${id}`, {
+  removeCard(cardId) {
+    return fetch(`${this._url}/v1/cohort-71/cards/${cardId}`, {
       method: 'DELETE',
       headers: {
         authorization: this._token,
@@ -51,6 +51,26 @@ export default class Api {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ name, about }),
+    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+  }
+
+  postLike(cardId) {
+    return fetch(`${this._url}/v1/cohort-71/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+  }
+
+  removeLike(cardId) {
+    return fetch(`${this._url}/v1/cohort-71/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 }

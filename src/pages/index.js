@@ -1,5 +1,4 @@
 import './index.css';
-
 import UserInfo from '../components/UserInfo.js';
 import Card from '../components/Card.js';
 import Section from '../components/Section.js';
@@ -18,10 +17,11 @@ import {
 } from '../utils/constants.js';
 
 //функция создания карточки
-function createCard(data, myCard) {
-  const card = new Card(data, '#card', propsCard, myCard, {
-    handleCardClick: () => popupImage.open(data),
-    //api.like,
+function createCard(cardData, userData) {
+  const card = new Card(cardData, '#card', propsCard, userData, {
+    handleCardClick: () => popupImage.open(cardData),
+    postLike: () => api.postLike(cardData._id),
+    removeLike: () => api.removeLike(cardData._id),
     handleDelete: confirmationPopup.open.bind(confirmationPopup),
   }).generateCard();
   return card;
@@ -30,8 +30,8 @@ function createCard(data, myCard) {
 //экземпляр контейнера для карточек
 const cardList = new Section({
   containerSelector: '.cards__list',
-  render: (data, myCard) => {
-    const card = createCard(data, myCard);
+  render: (data, userData) => {
+    const card = createCard(data, userData);
     cardList.addItem(card);
   },
 });
@@ -125,6 +125,6 @@ const initialCards = api.getInitialCards();
 Promise.all([userProfile, initialCards])
   .then(([userProfile, initialCards]) => {
     userInfo.setUserInfo(userProfile);
-    cardList.rendererArr(initialCards, userProfile._id);
+    cardList.rendererArr(initialCards, userProfile);
   })
   .catch((err) => console.log(err));

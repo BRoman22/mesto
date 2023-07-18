@@ -15,25 +15,26 @@ import {
   buttonAvatarEdit,
   propsForm,
   propsCard,
+  propsUser,
 } from '../utils/constants.js';
 
 //функция создания карточки
 function createCard(cardData, userData) {
   const card = new Card(cardData, '#card', propsCard, userData, {
     handleCardClick: () => popupImage.open(cardData),
-    postLike: () => api.postLike(cardData._id),
-    removeLike: () => api.removeLike(cardData._id),
+    postLike: () => api.putRequest(cardData._id),
+    removeLike: () => api.deleteRequest(cardData._id, '/likes'),
     handleDelete: confirmationPopup.open.bind(confirmationPopup),
   }).generateCard();
   return card;
 }
 
+//
 function loadImage(item, loadCallback, errorCallback) {
   const img = item.querySelector('.card__image');
   img.onload = loadCallback;
   img.onerror = errorCallback;
 }
-
 function errorCallback() {
   alert('Что-то не так, проверьте ссылку');
 }
@@ -51,12 +52,15 @@ const cardList = new Section({
 const popupAvatar = new PopupWithForm({
   popupSelector: '.popup_avatar',
   handleFormSubmit: (e) => {
-    const avatar = popupAvatar.getInputValues();
+    const { link } = popupAvatar.getInputValues();
     e.preventDefault();
+    popupAvatar.renderLoading(true, 'Сохранить');
     api
-      .setAvatar(avatar)
-      .then(userInfo.setUserAvatar(avatar))
-      .catch((err) => console.log(err));
+      .patchRequest({ avatar: link }, '/avatar')
+      .then(userInfo.setUserAvatar(link))
+      .catch((err) => console.log(err))
+      .finally(() => popupAvatar.renderLoading(false, 'Сохранить'));
+
     popupAvatar.close();
   },
 });
@@ -71,7 +75,7 @@ const confirmationPopup = new PopupWithConfirmation({
   popupSelector: '.popup_confirmation',
   handleFormSubmit: (id, element) => {
     api
-      .removeCard(id)
+      .deleteRequest(id)
       .then(() => {
         cardList.deleteItem(element);
         confirmationPopup.close();
@@ -85,13 +89,14 @@ confirmationPopup.setEventListeners();
 const popupCard = new PopupWithForm({
   popupSelector: '.popup_card',
   handleFormSubmit: (e) => {
+    const { name, link } = popupCard.getInputValues();
     e.preventDefault();
-    popupCard.renderLoading(true);
+    popupCard.renderLoading(true, 'Создать');
     api
-      .postCard(popupCard.getInputValues())
+      .postRequest({ name, link })
       .then((cardData) => cardList.rendererCard(cardData))
       .catch((err) => console.log(err))
-      .finally(() => popupCard.renderLoading(false));
+      .finally(() => popupCard.renderLoading(false, 'Создать'));
 
     popupCard.close();
   },
@@ -108,12 +113,12 @@ const popupProfile = new PopupWithForm({
   handleFormSubmit: (e) => {
     const userData = popupProfile.getInputValues();
     e.preventDefault();
-    popupProfile.renderLoading(true);
+    popupProfile.renderLoading(true, 'Сохранить');
     api
-      .setUser(userData)
+      .patchRequest(userData)
       .then(userInfo.setUserInfo(userData))
       .catch((err) => console.log(err))
-      .finally(() => popupProfile.renderLoading(false));
+      .finally(() => popupProfile.renderLoading(false, 'Сохранить'));
 
     popupProfile.close();
   },
@@ -126,11 +131,7 @@ buttonOpenProfilePopup.addEventListener('click', () => {
 });
 
 //экземпляр профиля юзера
-const userInfo = new UserInfo({
-  name: '.profile__title',
-  about: '.profile__subtitle',
-  avatar: '.profile__avatar',
-});
+const userInfo = new UserInfo(propsUser);
 
 //экземпляр попапа с картинкой
 const popupImage = new PopupWithImage('.popup_picture');
@@ -152,8 +153,8 @@ enableValidation(propsForm);
 
 //загрузка профиля и карточек
 const api = new Api('https://nomoreparties.co', myToken);
-const userProfile = api.getUserInfo();
-const initialCards = api.getInitialCards();
+const userProfile = api.getRequest('/users/me');
+const initialCards = api.getRequest('/cards');
 
 Promise.all([userProfile, initialCards])
   .then(([userProfile, initialCards]) => {

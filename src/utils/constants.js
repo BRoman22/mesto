@@ -22,6 +22,12 @@ const propsCard = {
   cardLikeActive: 'card__like_active',
   cardDelete: '.card__delete',
 };
+//свойства класса UserInfo
+const propsUser = {
+  name: '.profile__title',
+  about: '.profile__subtitle',
+  avatar: '.profile__avatar',
+};
 
 //экспорт всего файла
 export {
@@ -31,4 +37,5 @@ export {
   buttonAvatarEdit,
   propsForm,
   propsCard,
+  propsUser,
 };

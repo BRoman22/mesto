@@ -4,8 +4,8 @@ export default class Api {
     this._token = myToken;
   }
 
-  getUserInfo() {
-    return fetch(`${this._url}/v1/cohort-71/users/me`, {
+  getRequest(...path) {
+    return fetch(`${this._url}/v1/cohort-71${path}`, {
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json',
@@ -13,28 +13,19 @@ export default class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  getInitialCards() {
-    return fetch(`${this._url}/v1/cohort-71/cards`, {
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
-  }
-
-  postCard({ name, link }) {
+  postRequest(data) {
     return fetch(`${this._url}/v1/cohort-71/cards`, {
       method: 'POST',
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, link }),
+      body: JSON.stringify(data),
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  removeCard(cardId) {
-    return fetch(`${this._url}/v1/cohort-71/cards/${cardId}`, {
+  deleteRequest(cardId, ...path) {
+    return fetch(`${this._url}/v1/cohort-71/cards/${cardId}${path}`, {
       method: 'DELETE',
       headers: {
         authorization: this._token,
@@ -43,8 +34,8 @@ export default class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  setUser(data) {
-    return fetch(`${this._url}/v1/cohort-71/users/me`, {
+  patchRequest(data, ...path) {
+    return fetch(`${this._url}/v1/cohort-71/users/me${path}`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
@@ -54,34 +45,13 @@ export default class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  postLike(cardId) {
+  putRequest(cardId) {
     return fetch(`${this._url}/v1/cohort-71/cards/${cardId}/likes`, {
       method: 'PUT',
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json',
       },
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
-  }
-
-  removeLike(cardId) {
-    return fetch(`${this._url}/v1/cohort-71/cards/${cardId}/likes`, {
-      method: 'DELETE',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      },
-    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
-  }
-
-  setAvatar(data) {
-    return fetch(`${this._url}/v1/cohort-71/users/me/avatar`, {
-      method: 'PATCH',
-      headers: {
-        authorization: this._token,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ avatar: data.link }),
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 }

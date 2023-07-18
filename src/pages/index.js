@@ -12,6 +12,7 @@ import {
   formList,
   buttonOpenProfilePopup,
   buttonOpenCardPopup,
+  buttonAvatarEdit,
   propsForm,
   propsCard,
 } from '../utils/constants.js';
@@ -27,16 +28,45 @@ function createCard(cardData, userData) {
   return card;
 }
 
+function loadImage(item, loadCallback, errorCallback) {
+  const img = item.querySelector('.card__image');
+  img.onload = loadCallback;
+  img.onerror = errorCallback;
+}
+
+function errorCallback() {
+  alert('Что-то не так, проверьте ссылку');
+}
+
 //экземпляр контейнера для карточек
 const cardList = new Section({
   containerSelector: '.cards__list',
   render: (data, userData) => {
     const card = createCard(data, userData);
-    cardList.addItem(card);
+    loadImage(card, cardList.addItem(card), errorCallback);
   },
 });
 
-//экземпляр попапа с подверждением уделения карточки
+//экземпляр попапа аватара
+const popupAvatar = new PopupWithForm({
+  popupSelector: '.popup_avatar',
+  handleFormSubmit: (e) => {
+    const avatar = popupAvatar.getInputValues();
+    e.preventDefault();
+    api
+      .setAvatar(avatar)
+      .then(userInfo.setUserAvatar(avatar))
+      .catch((err) => console.log(err));
+    popupAvatar.close();
+  },
+});
+popupAvatar.setEventListeners();
+buttonAvatarEdit.addEventListener('click', () => {
+  popupAvatar.open();
+  formValidators.avatar.resetValidation();
+});
+
+//экземпляр попапа уделения карточки
 const confirmationPopup = new PopupWithConfirmation({
   popupSelector: '.popup_confirmation',
   handleFormSubmit: (id, element) => {
@@ -76,14 +106,15 @@ buttonOpenCardPopup.addEventListener('click', () => {
 const popupProfile = new PopupWithForm({
   popupSelector: '.popup_profile',
   handleFormSubmit: (e) => {
+    const userData = popupProfile.getInputValues();
     e.preventDefault();
     popupProfile.renderLoading(true);
     api
-      .setUserInfo(popupProfile.getInputValues())
+      .setUser(userData)
+      .then(userInfo.setUserInfo(userData))
       .catch((err) => console.log(err))
       .finally(() => popupProfile.renderLoading(false));
 
-    userInfo.setUserInfo(popupProfile.getInputValues());
     popupProfile.close();
   },
 });
@@ -111,7 +142,9 @@ const enableValidation = (config) => {
   formList.forEach((formElement) => {
     const validator = new FormValidator(formElement, config);
     const formName = formElement.getAttribute('name');
-    formValidators[formName] = validator;
+    if (formName != 'confirmation') {
+      formValidators[formName] = validator;
+    }
     validator.enableValidation();
   });
 };

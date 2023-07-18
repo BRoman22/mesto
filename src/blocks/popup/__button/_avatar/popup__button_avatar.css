@@ -1,0 +1,9 @@
+.popup__button_avatar {
+  min-width: 358px;
+}
+
+@media (max-width: 879px) {
+  .popup__button_avatar {
+    min-width: 238px;
+  }
+}

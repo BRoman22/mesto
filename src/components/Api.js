@@ -43,14 +43,14 @@ export default class Api {
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
-  setUserInfo({ name, about }) {
+  setUser(data) {
     return fetch(`${this._url}/v1/cohort-71/users/me`, {
       method: 'PATCH',
       headers: {
         authorization: this._token,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ name, about }),
+      body: JSON.stringify(data),
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 
@@ -71,6 +71,17 @@ export default class Api {
         authorization: this._token,
         'Content-Type': 'application/json',
       },
+    }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
+  }
+
+  setAvatar(data) {
+    return fetch(`${this._url}/v1/cohort-71/users/me/avatar`, {
+      method: 'PATCH',
+      headers: {
+        authorization: this._token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ avatar: data.link }),
     }).then((res) => (res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)));
   }
 }

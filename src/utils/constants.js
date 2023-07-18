@@ -1,8 +1,9 @@
 //формы
 const formList = Array.from(document.querySelectorAll('.popup__form'));
-//кнопки открытия попапов
+//кнопки
 const buttonOpenProfilePopup = document.querySelector('.profile__button-edit');
 const buttonOpenCardPopup = document.querySelector('.profile__button-add');
+const buttonAvatarEdit = document.querySelector('.profile__button-edit-avatar');
 //свойства класса FormValidator
 const propsForm = {
   inputSelector: '.popup__input',
@@ -23,4 +24,11 @@ const propsCard = {
 };
 
 //экспорт всего файла
-export { formList, buttonOpenProfilePopup, buttonOpenCardPopup, propsForm, propsCard };
+export {
+  formList,
+  buttonOpenProfilePopup,
+  buttonOpenCardPopup,
+  buttonAvatarEdit,
+  propsForm,
+  propsCard,
+};

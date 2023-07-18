@@ -45,7 +45,7 @@ export default class Card {
       this._elementDelete = null;
     }
 
-    if (this._cardData.likes.find((item) => item._id === this._userData._id)) {
+    if (this._cardData.likes.some((item) => item._id === this._userData._id)) {
       this._elementLike.classList.add('card__like_active');
     }
 

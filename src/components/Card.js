@@ -9,7 +9,7 @@ export default class Card {
     this._cardData = cardData;
     this._templateSelector = templateSelector;
     this._propsCard = propsCard;
-    this._userData = userData;
+    this._userId = userData._id;
     this._handleCardClick = handleCardClick;
     this._postLike = postLike;
     this._removeLike = removeLike;
@@ -40,12 +40,11 @@ export default class Card {
     this._elementImage.alt = this._cardData.name;
     this._elementLikeCounter.textContent = this._cardData.likes.length;
 
-    if (this._userData._id != this._cardData.owner._id) {
+    if (this._userId != this._cardData.owner._id) {
       this._elementDelete.remove();
       this._elementDelete = null;
     }
-
-    if (this._cardData.likes.some((item) => item._id === this._userData._id)) {
+    if (this._cardData.likes.some((item) => item._id === this._userId)) {
       this._elementLike.classList.add('card__like_active');
     }
 
@@ -63,18 +62,19 @@ export default class Card {
 
   _handleToggleLike() {
     if (!this._elementLike.classList.contains('card__like_active')) {
-      this._elementLikeCounter.textContent = ++this._cardData.likes.length;
-      this._elementLike.classList.add('card__like_active');
-      this._postLike();
+      this._postLike().then((res) => {
+        this._elementLikeCounter.textContent = res.likes.length;
+        this._elementLike.classList.add('card__like_active');
+      });
     } else {
-      this._elementLikeCounter.textContent = --this._cardData.likes.length;
-      this._elementLike.classList.remove('card__like_active');
-      this._removeLike();
+      this._removeLike().then((res) => {
+        this._elementLikeCounter.textContent = res.likes.length;
+        this._elementLike.classList.remove('card__like_active');
+      });
     }
   }
 
   _handleDeleteCard() {
     this._handleDelete(this._cardData._id, this._element);
-    this._element = null;
   }
 }

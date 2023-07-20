@@ -18,50 +18,31 @@ import {
   propsUser,
 } from '../utils/constants.js';
 
-//функция создания карточки
-function createCard(cardData, userData) {
-  const card = new Card(cardData, '#card', propsCard, userData, {
-    handleCardClick: () => popupImage.open(cardData),
-    postLike: () => api.putRequest(cardData._id),
-    removeLike: () => api.deleteRequest(cardData._id, '/likes'),
-    handleDelete: confirmationPopup.open.bind(confirmationPopup),
-  }).generateCard();
-  return card;
-}
-
-//
-function loadImage(item, loadCallback, errorCallback) {
-  const img = item.querySelector('.card__image');
-  img.onload = loadCallback;
-  img.onerror = errorCallback;
-}
-function errorCallback() {
-  alert('Что-то не так, проверьте ссылку');
-}
-
-//экземпляр контейнера для карточек
-const cardList = new Section({
-  containerSelector: '.cards__list',
-  render: (data, userData) => {
-    const card = createCard(data, userData);
-    loadImage(card, cardList.addItem(card), errorCallback);
-  },
-});
+//экземпляр профиля юзера
+const userInfo = new UserInfo(propsUser);
+//экземпляр попапа с картинкой
+const popupImage = new PopupWithImage('.popup_picture');
+popupImage.setEventListeners();
+let cardList;
 
 //экземпляр попапа аватара
 const popupAvatar = new PopupWithForm({
   popupSelector: '.popup_avatar',
   handleFormSubmit: (e) => {
-    const { link } = popupAvatar.getInputValues();
     e.preventDefault();
-    popupAvatar.renderLoading(true, 'Сохранить');
+    popupAvatar.renderLoading(true);
     api
-      .patchRequest({ avatar: link }, '/avatar')
-      .then(userInfo.setUserAvatar(link))
-      .catch((err) => console.log(err))
-      .finally(() => popupAvatar.renderLoading(false, 'Сохранить'));
-
-    popupAvatar.close();
+      .request({
+        data: popupAvatar.getInputValues(),
+        method: 'PATCH',
+        path: '/users/me/avatar',
+      })
+      .then((res) => {
+        popupAvatar.close();
+        userInfo.setUserAvatar(res);
+      })
+      .then(() => popupAvatar.renderLoading(false))
+      .catch(api.catch);
   },
 });
 popupAvatar.setEventListeners();
@@ -75,12 +56,12 @@ const confirmationPopup = new PopupWithConfirmation({
   popupSelector: '.popup_confirmation',
   handleFormSubmit: (id, element) => {
     api
-      .deleteRequest(id)
+      .request({ method: 'DELETE', path: `/cards/${id}` })
       .then(() => {
-        cardList.deleteItem(element);
         confirmationPopup.close();
+        cardList.deleteItem(element);
       })
-      .catch((err) => console.log(err));
+      .catch(api.catch);
   },
 });
 confirmationPopup.setEventListeners();
@@ -89,16 +70,20 @@ confirmationPopup.setEventListeners();
 const popupCard = new PopupWithForm({
   popupSelector: '.popup_card',
   handleFormSubmit: (e) => {
-    const { name, link } = popupCard.getInputValues();
     e.preventDefault();
-    popupCard.renderLoading(true, 'Создать');
+    popupCard.renderLoading(true);
     api
-      .postRequest({ name, link })
-      .then((cardData) => cardList.rendererCard(cardData))
-      .catch((err) => console.log(err))
-      .finally(() => popupCard.renderLoading(false, 'Создать'));
-
+      .request({ data: popupCard.getInputValues(), method: 'POST', path: '/cards' })
+      .then((cardData) => {
+        popupCard.close();
+        cardList.renderer(cardData);
+      })
+      .then(() => popupCard.renderLoading(false))
+      .catch(api.catch);
+  },
+  gg: (cardData) => {
     popupCard.close();
+    cardList.renderer(cardData);
   },
 });
 popupCard.setEventListeners();
@@ -111,16 +96,16 @@ buttonOpenCardPopup.addEventListener('click', () => {
 const popupProfile = new PopupWithForm({
   popupSelector: '.popup_profile',
   handleFormSubmit: (e) => {
-    const userData = popupProfile.getInputValues();
     e.preventDefault();
-    popupProfile.renderLoading(true, 'Сохранить');
+    popupProfile.renderLoading(true);
     api
-      .patchRequest(userData)
-      .then(userInfo.setUserInfo(userData))
-      .catch((err) => console.log(err))
-      .finally(() => popupProfile.renderLoading(false, 'Сохранить'));
-
-    popupProfile.close();
+      .request({ data: popupProfile.getInputValues(), method: 'PATCH', path: '/users/me' })
+      .then((userData) => {
+        popupProfile.close();
+        userInfo.setUserInfo(userData);
+      })
+      .then(() => popupProfile.renderLoading(false))
+      .catch(api.catch);
   },
 });
 popupProfile.setEventListeners();
@@ -129,13 +114,6 @@ buttonOpenProfilePopup.addEventListener('click', () => {
   popupProfile.setInputValues(userInfo.getUserInfo());
   formValidators.profile.resetValidation();
 });
-
-//экземпляр профиля юзера
-const userInfo = new UserInfo(propsUser);
-
-//экземпляр попапа с картинкой
-const popupImage = new PopupWithImage('.popup_picture');
-popupImage.setEventListeners();
 
 //валидация форм
 const formValidators = {};
@@ -151,14 +129,35 @@ const enableValidation = (config) => {
 };
 enableValidation(propsForm);
 
+//функция создания карточки
+function createCard(cardData, userData) {
+  const card = new Card(cardData, '#card', propsCard, userData, {
+    handleCardClick: () => popupImage.open(cardData),
+    postLike: () => api.request({ method: 'PUT', path: `/cards/${cardData._id}/likes` }),
+    removeLike: () => api.request({ method: 'DELETE', path: `/cards/${cardData._id}/likes` }),
+    handleDelete: confirmationPopup.open.bind(confirmationPopup),
+  }).generateCard();
+  return card;
+}
+
 //загрузка профиля и карточек
 const api = new Api('https://nomoreparties.co', myToken);
-const userProfile = api.getRequest('/users/me');
-const initialCards = api.getRequest('/cards');
+const userProfile = api.request({ path: '/users/me' });
+const initialCards = api.request({ path: '/cards' });
 
 Promise.all([userProfile, initialCards])
   .then(([userProfile, initialCards]) => {
+    //экземпляр контейнера для карточек
+    cardList = new Section({
+      containerSelector: '.cards__list',
+      render: (cardData, userData) => {
+        const card = createCard(cardData, userData);
+        cardList.addItem(card);
+      },
+      userData: userProfile,
+    });
+
     userInfo.setUserInfo(userProfile);
-    cardList.rendererArr(initialCards, userProfile);
+    cardList.renderer(initialCards);
   })
-  .catch((err) => console.log(err));
+  .catch(api.catch);

@@ -135,6 +135,7 @@ function createCard(cardData, userData) {
     handleCardClick: () => popupImage.open(cardData),
     postLike: () => api.request({ method: 'PUT', path: `/cards/${cardData._id}/likes` }),
     removeLike: () => api.request({ method: 'DELETE', path: `/cards/${cardData._id}/likes` }),
+    //в момент открытия попапа получаем данные в класс для сабмита удаления карточки
     handleDelete: confirmationPopup.open.bind(confirmationPopup),
   }).generateCard();
   return card;

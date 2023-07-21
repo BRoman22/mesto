@@ -62,15 +62,19 @@ export default class Card {
 
   _handleToggleLike() {
     if (!this._elementLike.classList.contains('card__like_active')) {
-      this._postLike().then((res) => {
-        this._elementLikeCounter.textContent = res.likes.length;
-        this._elementLike.classList.add('card__like_active');
-      });
+      this._postLike()
+        .then((res) => {
+          this._elementLikeCounter.textContent = res.likes.length;
+          this._elementLike.classList.add('card__like_active');
+        })
+        .catch(api.catch);
     } else {
-      this._removeLike().then((res) => {
-        this._elementLikeCounter.textContent = res.likes.length;
-        this._elementLike.classList.remove('card__like_active');
-      });
+      this._removeLike()
+        .then((res) => {
+          this._elementLikeCounter.textContent = res.likes.length;
+          this._elementLike.classList.remove('card__like_active');
+        })
+        .catch(api.catch);
     }
   }
 

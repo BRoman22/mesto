@@ -55,12 +55,14 @@ buttonAvatarEdit.addEventListener('click', () => {
 const confirmationPopup = new PopupWithConfirmation({
   popupSelector: '.popup_confirmation',
   handleFormSubmit: (id, element) => {
+    confirmationPopup.renderLoading(true);
     api
       .request({ method: 'DELETE', path: `/cards/${id}` })
       .then(() => {
         confirmationPopup.close();
         cardList.deleteItem(element);
       })
+      .then(() => confirmationPopup.renderLoading(false))
       .catch(api.catch);
   },
 });

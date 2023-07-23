@@ -83,10 +83,6 @@ const popupCard = new PopupWithForm({
       .then(() => popupCard.renderLoading(false))
       .catch(api.catch);
   },
-  gg: (cardData) => {
-    popupCard.close();
-    cardList.renderer(cardData);
-  },
 });
 popupCard.setEventListeners();
 buttonOpenCardPopup.addEventListener('click', () => {

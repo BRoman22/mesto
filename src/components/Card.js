@@ -67,14 +67,14 @@ export default class Card {
           this._elementLikeCounter.textContent = res.likes.length;
           this._elementLike.classList.add('card__like_active');
         })
-        .catch(api.catch);
+        .catch((res) => alert(res));
     } else {
       this._removeLike()
         .then((res) => {
           this._elementLikeCounter.textContent = res.likes.length;
           this._elementLike.classList.remove('card__like_active');
         })
-        .catch(api.catch);
+        .catch((res) => alert(res));
     }
   }
 

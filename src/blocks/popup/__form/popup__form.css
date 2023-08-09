@@ -1,12 +1,12 @@
 .popup__form {
   padding: 34px 36px 37px;
-  max-width: 358px;
+  width: 358px;
 }
 
 
 @media (max-width: 879px) {
   .popup__form {
     padding: 25px 22px;
-    max-width: 238px;
+    width: 238px;
   }
 }
